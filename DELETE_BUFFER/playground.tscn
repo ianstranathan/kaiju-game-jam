@@ -1,0 +1,133 @@
+[gd_scene load_steps=16 format=3 uid="uid://fbklxc5y23u"]
+
+[ext_resource type="Script" uid="uid://nstqx3vc4qaj" path="res://DELETE_BUFFER/playground.gd" id="1_pan6l"]
+[ext_resource type="PackedScene" uid="uid://twnnweetedhd" path="res://DELETE_BUFFER/kaiju.tscn" id="1_qfvgx"]
+[ext_resource type="PackedScene" uid="uid://dnpbkvu1wps4e" path="res://DELETE_BUFFER/test_set.tscn" id="1_xh3uv"]
+[ext_resource type="Shader" uid="uid://dp3wmasnbkmrj" path="res://VFX/Shaders/quad_mesh.gdshader" id="4_snwmj"]
+[ext_resource type="Script" uid="uid://dnuahws2m773d" path="res://DELETE_BUFFER/cam.gd" id="5_218e1"]
+
+[sub_resource type="Environment" id="Environment_7vw18"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_3xvsv"]
+viewport_path = NodePath("KaijuSubViewport")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_x6nnm"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ii1p7"]
+seamless = true
+noise = SubResource("FastNoiseLite_x6nnm")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_chqcd"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_snwmj")
+shader_parameter/kaiju_vieport_texture = SubResource("ViewportTexture_3xvsv")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_ii1p7")
+
+[sub_resource type="QuadMesh" id="QuadMesh_4t3gc"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="Environment" id="Environment_j61sd"]
+ambient_light_source = 2
+ambient_light_color = Color(0.351563, 0.351563, 0.351563, 1)
+
+[sub_resource type="Animation" id="Animation_fxf21"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("KaijuSubViewport/Kaiju:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 3, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("KaijuSubViewport/Kaiju:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_pp3ga"]
+resource_name = "dummy_movement"
+length = 3.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("KaijuSubViewport/Kaiju:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.566667, 1.2, 2.13333, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 3, 0), Vector3(-13.8839, 3, 0), Vector3(-21.9425, 3, 0), Vector3(-21.9425, 3, 8.64106), Vector3(-21.9425, 3, 21.0686)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("KaijuSubViewport/Kaiju:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.566667, 1.2, 2.13333, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.668496, 0), Vector3(0, -1.92508, 0), Vector3(0, -0.965778, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rb0if"]
+_data = {
+&"RESET": SubResource("Animation_fxf21"),
+&"dummy_movement": SubResource("Animation_pp3ga")
+}
+
+[node name="Playground" type="Node3D"]
+script = ExtResource("1_pan6l")
+
+[node name="KaijuSubViewport" type="SubViewport" parent="."]
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="KaijuSubViewport"]
+transform = Transform3D(-4.37114e-08, -0.5, 0.866025, 0, 0.866025, 0.5, -1, 2.18557e-08, -3.78552e-08, 21.924, 17.007, 0)
+cull_mask = 2
+environment = SubResource("Environment_7vw18")
+
+[node name="Kaiju" parent="KaijuSubViewport" instance=ExtResource("1_qfvgx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_chqcd")
+mesh = SubResource("QuadMesh_4t3gc")
+
+[node name="TestSet" parent="." instance=ExtResource("1_xh3uv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.74449, 0, 13.7189)
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(-4.37114e-08, -0.5, 0.866025, 0, 0.866025, 0.5, -1, 2.18557e-08, -3.78552e-08, 30, 10, 0)
+current = true
+script = ExtResource("5_218e1")
+target = NodePath("../KaijuSubViewport/Kaiju")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.440425, 0.897789, 0, -0.897789, 0.440425, 0, 27.1455, 27.9744)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_j61sd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rb0if")
+}

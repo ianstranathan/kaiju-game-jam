@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq7ktkbbxcrjw"]
+
+[ext_resource type="PackedScene" uid="uid://63gmwhwnjn2r" path="res://Assets/Models/Y Bot.fbx" id="1_62b31"]
+[ext_resource type="Material" uid="uid://b50ic2qxs3lj0" path="res://Player/player_mat.tres" id="2_qlhav"]
+
+[node name="Y Bot" instance=ExtResource("1_62b31")]
+
+[node name="Alpha_Surface" parent="Skeleton3D" index="0"]
+material_override = ExtResource("2_qlhav")

@@ -1,0 +1,77 @@
+[gd_scene load_steps=8 format=3 uid="uid://eb8hg70ja0pn"]
+
+[ext_resource type="Script" uid="uid://dpu8m24wsj5g6" path="res://DELETE_BUFFER/Tests/vfx_testing/vfx_playground.gd" id="1_byxhm"]
+[ext_resource type="PackedScene" uid="uid://dikds8tlhldxk" path="res://Kaiju/Fireball/fireball.tscn" id="1_nt6de"]
+[ext_resource type="Script" uid="uid://daqogaetktk5g" path="res://DELETE_BUFFER/Tests/vfx_testing/test_cam.gd" id="3_x5hel"]
+
+[sub_resource type="Environment" id="Environment_i47ir"]
+ambient_light_color = Color(0.738131, 0.726144, 0.324377, 1)
+glow_enabled = true
+
+[sub_resource type="Animation" id="Animation_4qmjb"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fireball:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 12, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_r346i"]
+resource_name = "test"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fireball:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 12, 0), Vector3(0, 2.69202, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0ygoh"]
+_data = {
+&"RESET": SubResource("Animation_4qmjb"),
+&"test": SubResource("Animation_r346i")
+}
+
+[node name="VfxPlayground" type="Node3D"]
+script = ExtResource("1_byxhm")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_i47ir")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+use_collision = true
+size = Vector3(50, 1, 50)
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 0.850472, 0.526021, 0, -0.526021, 0.850472, 0, 5.35893, 9.54887)
+current = true
+script = ExtResource("3_x5hel")
+target = NodePath("../Fireball")
+
+[node name="Timer" type="Timer" parent="Camera3D"]
+wait_time = 0.5
+one_shot = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.00770637, 0.987778, -0.155675, 0.0488382, 0.155866, 0.98657, 0.998777, 0, -0.0494424, -18.7065, 5.58532, 0)
+
+[node name="Fireball" parent="." instance=ExtResource("1_nt6de")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 12, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_0ygoh")
+}
+speed_scale = 2.0

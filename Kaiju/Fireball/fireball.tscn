@@ -1,0 +1,107 @@
+[gd_scene load_steps=22 format=3 uid="uid://dikds8tlhldxk"]
+
+[ext_resource type="Script" uid="uid://b8tvtmui16cu4" path="res://Kaiju/Fireball/fireball.gd" id="1_mc5w5"]
+[ext_resource type="Shader" uid="uid://dkn7xthvjuqlr" path="res://Kaiju/Fireball/fireball.gdshader" id="1_pebo5"]
+[ext_resource type="Shader" uid="uid://b5mue3hwrp0wp" path="res://Kaiju/Fireball/fireball_trail.gdshader" id="2_edw5n"]
+[ext_resource type="Texture2D" uid="uid://d1n40rnhn3i4" path="res://Assets/Particles/Kenny_Particle_Pack/spark_06.png" id="3_iigd1"]
+[ext_resource type="Texture2D" uid="uid://bws4jcu2ps186" path="res://Assets/Particles/Kenny_Particle_Pack/spark_07.png" id="4_jls21"]
+[ext_resource type="Texture2D" uid="uid://m72vwvy7f8m" path="res://Assets/Particles/Kenny_Particle_Pack/circle_05.png" id="6_b8q7h"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0ga7g"]
+radius = 1.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_oc7o2"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_flsem"]
+seamless = true
+noise = SubResource("FastNoiseLite_oc7o2")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cyd46"]
+render_priority = 0
+shader = ExtResource("1_pebo5")
+shader_parameter/color = Color(2, 1.3, 0.5, 1)
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_flsem")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tmjff"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m3c7p"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b0211"]
+noise = SubResource("FastNoiseLite_m3c7p")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o0hiu"]
+render_priority = 0
+shader = ExtResource("2_edw5n")
+shader_parameter/color = Color(2, 0.8, 0.2, 1)
+shader_parameter/lightning_tex = ExtResource("4_jls21")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_b0211")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x2gn4"]
+render_priority = 0
+shader = ExtResource("2_edw5n")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/lightning_tex = ExtResource("3_iigd1")
+
+[sub_resource type="QuadMesh" id="QuadMesh_om2vc"]
+material = SubResource("ShaderMaterial_x2gn4")
+size = Vector2(6, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w6b2a"]
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+albedo_texture = ExtResource("6_b8q7h")
+
+[sub_resource type="Curve" id="Curve_kjgu3"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8fftp"]
+curve = SubResource("Curve_kjgu3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yswb0"]
+particle_flag_align_y = true
+emission_shape = 2
+emission_sphere_radius = 0.5
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 3.0
+initial_velocity_max = 8.0
+radial_velocity_min = 0.999978
+radial_velocity_max = 1.99998
+gravity = Vector3(0, 0, 0)
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_8fftp")
+color = Color(2, 1.3, 0.5, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_32tkr"]
+size = Vector2(0.1, 0.5)
+
+[node name="Fireball" type="Area3D"]
+script = ExtResource("1_mc5w5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_0ga7g")
+
+[node name="head" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_cyd46")
+mesh = SubResource("CapsuleMesh_tmjff")
+
+[node name="trail" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.29167, 0, 0)
+material_override = SubResource("ShaderMaterial_o0hiu")
+mesh = SubResource("QuadMesh_om2vc")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0840413, 0, 0)
+material_override = SubResource("StandardMaterial3D_w6b2a")
+amount = 15
+lifetime = 0.35
+explosiveness = 0.4
+process_material = SubResource("ParticleProcessMaterial_yswb0")
+draw_pass_1 = SubResource("QuadMesh_32tkr")

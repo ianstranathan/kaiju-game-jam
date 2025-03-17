@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1jfpl70rv4ed"]
+
+[ext_resource type="PackedScene" uid="uid://c0i5nafd7b77y" path="res://Assets/Models/Free_Asset_Packs/KayKit_City_Builder_Bits_1.0_FREE/Assets/fbx/building_A_withoutBase.fbx" id="1_af0ig"]
+[ext_resource type="Script" uid="uid://cy10xheaq1x0c" path="res://DELETE_BUFFER/Levels/track_generator.gd" id="1_q3s0y"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rbpj4"]
+
+[node name="track_generator" type="Node3D"]
+script = ExtResource("1_q3s0y")
+
+[node name="building_A_withoutBase" parent="." instance=ExtResource("1_af0ig")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.379704, 0.48898, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(100, 1, 100)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.26163, 4)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_rbpj4")

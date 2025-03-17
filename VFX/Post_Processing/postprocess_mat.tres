@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://birrjqr7ogf68"]
+
+[ext_resource type="Shader" uid="uid://cfmrnmnu4bntd" path="res://VFX/Post_Processing/outline.gdshader" id="1_c6g8w"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_c6g8w")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/distance_falloff = 1.0
+shader_parameter/smoothing_cutoff = 0.1
+shader_parameter/smoothing_max = 0.0

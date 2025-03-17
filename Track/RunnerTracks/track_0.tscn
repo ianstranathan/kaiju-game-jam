@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4uxfedkq3set"]
+
+[ext_resource type="Script" uid="uid://cvfn1ish8ky75" path="res://Track/track_tile.gd" id="1_8mgu3"]
+[ext_resource type="PackedScene" uid="uid://ceo0clts0nssh" path="res://DELETE_BUFFER/Levels/prototype_level_imports/base_2.tscn" id="1_xdluu"]
+[ext_resource type="PackedScene" uid="uid://b2u1nhe4sleb5" path="res://DELETE_BUFFER/Levels/prototype_level_imports/building_a_2.tscn" id="2_33fw6"]
+[ext_resource type="PackedScene" uid="uid://d2d7gw2d8ixy6" path="res://DELETE_BUFFER/Levels/prototype_level_imports/building_b_2.tscn" id="3_iihvj"]
+
+[node name="Track0" type="Node3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+script = ExtResource("1_8mgu3")
+
+[node name="M" parent="." instance=ExtResource("1_xdluu")]
+
+[node name="RHS" parent="." instance=ExtResource("2_33fw6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000761032, 0, -1.997)
+
+[node name="LHS" parent="." instance=ExtResource("3_iihvj")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 2)

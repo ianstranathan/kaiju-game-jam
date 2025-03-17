@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ckugb1dgghr0y"]
+
+[ext_resource type="Shader" uid="uid://06wu28xvyg8d" path="res://UI/start_menu.gdshader" id="1_f8c3l"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_f8c3l")
+shader_parameter/color = Color(0.894118, 0.505882, 0.396078, 1)
+shader_parameter/is_hovering = 0.0

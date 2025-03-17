@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://clr8p3euyp6et"]
+
+[ext_resource type="ArrayMesh" uid="uid://tpjhehp58ejd" path="res://Assets/Models/11677_dinosaur_v1_L3.obj" id="1_8u218"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="11677DinosaurV1L3" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, -8.74228e-08, 2, 0, -2, -8.74228e-08, 0, 0, 0)
+layers = 2
+mesh = ExtResource("1_8u218")

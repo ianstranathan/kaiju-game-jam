@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://bohp5xgw3ucn1"]
+
+[ext_resource type="PackedScene" uid="uid://ccc5gg3ylwnd2" path="res://Track/track_generator.tscn" id="1_dydjy"]
+[ext_resource type="PackedScene" uid="uid://r4ncqir4b5ji" path="res://Player/player.tscn" id="1_fav2k"]
+[ext_resource type="PackedScene" uid="uid://b4uxfedkq3set" path="res://Track/RunnerTracks/track_0.tscn" id="2_uy4sr"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1yrp0"]
+radius = 2.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_662di"]
+albedo_color = Color(2, 1.3, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ie5jl"]
+size = Vector3(7, 7, 7)
+
+[node name="World" type="Node3D"]
+
+[node name="TrackGenerator" parent="." node_paths=PackedStringArray("player_reference", "kaiju_reference", "initial_tile_scene") instance=ExtResource("1_dydjy")]
+player_reference = NodePath("../Player")
+kaiju_reference = NodePath("../Kaiju")
+initial_tile_scene = NodePath("Track0")
+
+[node name="Track0" parent="TrackGenerator" instance=ExtResource("2_uy4sr")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.0314243, 0.880841, -0.472368, -0.0584688, 0.473412, 0.878899, 0.997795, 0, 0.0663783, -23.2756, 13.8952, 0)
+
+[node name="Player" parent="." instance=ExtResource("1_fav2k")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.41328, 0.400001, 0)
+
+[node name="Kaiju" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.1472, 3.8595, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Kaiju"]
+shape = SubResource("SphereShape3D_1yrp0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Kaiju"]
+material_override = SubResource("StandardMaterial3D_662di")
+mesh = SubResource("BoxMesh_ie5jl")

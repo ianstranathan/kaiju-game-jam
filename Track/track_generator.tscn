@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccc5gg3ylwnd2"]
+
+[ext_resource type="Script" uid="uid://dmyk01cbh1svs" path="res://Track/track_generator.gd" id="1_jy85l"]
+
+[node name="TrackGenerator" type="Node3D"]
+script = ExtResource("1_jy85l")

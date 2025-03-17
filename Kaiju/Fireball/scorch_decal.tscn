@@ -1,0 +1,77 @@
+[gd_scene load_steps=6 format=3 uid="uid://de3ujmduqthsv"]
+
+[ext_resource type="Texture2D" uid="uid://odhgpcr5rm1f" path="res://Assets/Particles/Kenny_Particle_Pack/scorch_02.png" id="1_y4gdm"]
+[ext_resource type="Script" uid="uid://d28a2ladsslvs" path="res://Kaiju/Fireball/scorch_decal.gd" id="2_lhq5e"]
+
+[sub_resource type="Animation" id="Animation_ve7bv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emission_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(4, 0.8, 0.2, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7ra3f"]
+resource_name = "scorch"
+length = 15.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emission_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5.03333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [4.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3.53333, 8.43333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(4, 0.8, 0.2, 1), Color(0.14, 0.14, 0.14, 1), Color(0.14, 0.14, 0.14, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_enama"]
+_data = {
+&"RESET": SubResource("Animation_ve7bv"),
+&"scorch": SubResource("Animation_7ra3f")
+}
+
+[node name="ScorchDecal" type="Decal"]
+size = Vector3(8, 2, 8)
+texture_albedo = ExtResource("1_y4gdm")
+emission_energy = 2.0
+modulate = Color(4, 0.8, 0.2, 1)
+script = ExtResource("2_lhq5e")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_enama")
+}

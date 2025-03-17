@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://0xj6hkwuxe05"]
+
+[ext_resource type="PackedScene" uid="uid://xjceg5j2s4qe" path="res://Player/Player_Skin/player animations.glb" id="1_yy6n2"]
+[ext_resource type="Material" uid="uid://bjiimi5dw5504" path="res://Player/Player_Skin/player_mat.tres" id="2_54hbf"]
+
+[node name="player animations" instance=ExtResource("1_yy6n2")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/position = Vector3(0.00691486, 0.0388269, -2.27682)
+bones/0/rotation = Quaternion(-0.655787, -0.0580952, 0.01452, 0.752567)
+bones/1/rotation = Quaternion(0.0951314, 0.123764, 0.024647, 0.987434)
+bones/2/rotation = Quaternion(-0.0296225, 0.0153576, 0.0119479, 0.999372)
+bones/3/rotation = Quaternion(-0.0292522, 0.0154017, 0.0108513, 0.999395)
+bones/4/rotation = Quaternion(0.0599508, -0.0200373, -0.0279168, 0.99761)
+bones/5/rotation = Quaternion(-0.171513, -0.0576759, 0.00756736, 0.983463)
+bones/7/rotation = Quaternion(-0.630679, -0.382871, 0.537723, -0.408054)
+bones/8/rotation = Quaternion(0.311092, 0.368491, -0.371673, 0.793281)
+bones/9/rotation = Quaternion(0.0284129, 0.00133055, 0.589926, 0.806956)
+bones/11/rotation = Quaternion(0.608526, -0.390879, 0.560297, 0.403704)
+bones/12/rotation = Quaternion(0.293521, 0.0523988, -0.116044, 0.947435)
+bones/13/rotation = Quaternion(0.0348246, -0.00121902, -0.721172, 0.691879)
+bones/15/rotation = Quaternion(0.046422, 0.357033, 0.929973, -0.0743174)
+bones/15/scale = Vector3(1.00001, 1, 1.00004)
+bones/16/rotation = Quaternion(-0.891113, -0.0456058, 0.0487423, 0.448845)
+bones/17/rotation = Quaternion(0.501881, -0.00125878, 0.0503872, 0.863467)
+bones/18/rotation = Quaternion(0.29672, -0.00501831, 0.0015593, 0.95495)
+bones/20/rotation = Quaternion(-0.0414317, -0.0107742, 0.998122, -0.0438148)
+bones/20/scale = Vector3(0.99996, 1, 0.999856)
+bones/21/rotation = Quaternion(-0.318019, -0.0741882, -0.00190203, 0.945175)
+bones/22/rotation = Quaternion(0.636654, -0.0867634, -0.0381437, 0.765303)
+bones/23/rotation = Quaternion(0.540212, 0.00493043, 0.00208946, 0.841512)
+
+[node name="player_Cube" parent="Armature/Skeleton3D" index="0"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+material_override = ExtResource("2_54hbf")

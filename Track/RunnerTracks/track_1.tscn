@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://br8ggn8aur7jj"]
+
+[ext_resource type="PackedScene" uid="uid://3be8m2uywm03" path="res://DELETE_BUFFER/Levels/prototype_level_imports/building_c_2.tscn" id="1_wu8nn"]
+[ext_resource type="PackedScene" uid="uid://ceo0clts0nssh" path="res://DELETE_BUFFER/Levels/prototype_level_imports/base_2.tscn" id="2_318fd"]
+[ext_resource type="PackedScene" uid="uid://cqdwtt8u07n3q" path="res://DELETE_BUFFER/Levels/prototype_level_imports/building_d_2.tscn" id="3_1u6c1"]
+
+[node name="Track1" type="Node3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="LHS" parent="." instance=ExtResource("1_wu8nn")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 2)
+
+[node name="M" parent="." instance=ExtResource("2_318fd")]
+
+[node name="building_D2" parent="." instance=ExtResource("3_1u6c1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.68272)

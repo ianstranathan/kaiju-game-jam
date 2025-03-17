@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://twnnweetedhd"]
+
+[ext_resource type="PackedScene" uid="uid://clr8p3euyp6et" path="res://DELETE_BUFFER/kaiju_skin.tscn" id="1_4mvts"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_drgxr"]
+
+[node name="Kaiju" type="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 3.5, 0)
+shape = SubResource("CapsuleShape3D_drgxr")
+
+[node name="Node3D" parent="." instance=ExtResource("1_4mvts")]

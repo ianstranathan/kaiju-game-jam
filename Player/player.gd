@@ -7,10 +7,14 @@ extends CharacterBody3D
 @export var _camera: Camera3D
 @export var rotation_speed := 12.0
 var _last_movement_direction := Vector3.BACK
-@export var move_speed = 8.0
+@export var v_x := 8.0
+@export var x_h := 3.0
 @export var acceleration := 20.0
-@export var jump_impulse := 12.0
-@export var _gravity := -30.0
+@export var jump_height_units := 1.2
+@onready var _h = jump_height_units + 0.2 * $CollisionShape3D.shape.height
+@onready var v_0 :float = 2. * _h * v_x / x_h
+@onready var _gravity :float = -2. * _h * (v_x * v_x) / (x_h * x_h)
+
 # --------------------------------------------------
 @export_group("Skin")
 @export var _skin :Node3D
@@ -72,11 +76,11 @@ func movement(dir: Vector3, delta: float) -> void:
 	# -- separate components of velocity
 	var y_velocity := velocity.y # -- save for gravity addition
 	velocity.y = 0.0
-	velocity = velocity.move_toward(dir * move_speed, acceleration * delta)
+	velocity = velocity.move_toward(dir * v_x, acceleration * delta)
 	velocity.y = y_velocity + _gravity * delta
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		state_transtion(States.JUMPING)
-		velocity.y += jump_impulse
+		velocity.y += v_0
 	move_and_slide()
 
 func move_dir_from_input() -> Vector3:

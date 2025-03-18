@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://b84epxcx1pyxr"]
+
+[ext_resource type="Script" uid="uid://dy2xrey3iq6rh" path="res://Track/Obstacles/an_obstacle.gd" id="1_1cah4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_snw0f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1cah4"]
+
+[node name="TestObstacle" type="StaticBody3D"]
+script = ExtResource("1_1cah4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_snw0f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_1cah4")

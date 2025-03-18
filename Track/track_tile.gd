@@ -1,7 +1,7 @@
 extends Node3D
 
 
-func get_track_width() -> float:
+func get_track_aabb_size() -> Vector3:
 	# -- children are Node3D
 	# -- child of children have a mesh instance & a static body
 	# -- pick any child => child(0)
@@ -10,4 +10,4 @@ func get_track_width() -> float:
 		if child is MeshInstance3D:
 			return child)[0].get_aabb()
 	
-	return array_mesh_aabb.size.x if array_mesh_aabb else 0.0
+	return array_mesh_aabb.size if array_mesh_aabb else Vector3.ZERO

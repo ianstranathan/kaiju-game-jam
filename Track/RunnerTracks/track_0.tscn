@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://d2d7gw2d8ixy6" path="res://DELETE_BUFFER/Levels/prototype_level_imports/building_b_2.tscn" id="3_iihvj"]
 
 [node name="Track0" type="Node3D"]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 script = ExtResource("1_8mgu3")
 
 [node name="M" parent="." instance=ExtResource("1_xdluu")]

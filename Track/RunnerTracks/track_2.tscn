@@ -7,10 +7,10 @@
 [node name="Track2" type="Node3D"]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 
-[node name="building_E2" parent="." instance=ExtResource("1_lil7l")]
+[node name="M" parent="." instance=ExtResource("3_va7xf")]
+
+[node name="RHS" parent="." instance=ExtResource("1_lil7l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
-[node name="building_F2" parent="." instance=ExtResource("2_cin0c")]
+[node name="LHS" parent="." instance=ExtResource("2_cin0c")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 2)
-
-[node name="base2" parent="." instance=ExtResource("3_va7xf")]

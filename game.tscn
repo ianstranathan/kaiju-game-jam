@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dl7pne46mi0qa"]
+[gd_scene load_steps=8 format=3 uid="uid://dl7pne46mi0qa"]
 
 [ext_resource type="Script" uid="uid://dap4o1j3vst8e" path="res://game.gd" id="1_7jktm"]
 [ext_resource type="PackedScene" uid="uid://r4ncqir4b5ji" path="res://Player/player.tscn" id="1_e2o6t"]
@@ -6,17 +6,20 @@
 [ext_resource type="PackedScene" uid="uid://b4uxfedkq3set" path="res://Track/RunnerTracks/track_0.tscn" id="3_fc0e3"]
 [ext_resource type="PackedScene" uid="uid://clr8p3euyp6et" path="res://DELETE_BUFFER/kaiju_skin.tscn" id="3_feb5d"]
 [ext_resource type="Script" uid="uid://7glabykuit1n" path="res://Camera/cam.gd" id="5_7jktm"]
+[ext_resource type="PackedScene" uid="uid://bjoy754a7yx0j" path="res://Track/obstacle_generator.tscn" id="7_eow3j"]
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_7jktm")
 
 [node name="Player" parent="." node_paths=PackedStringArray("_camera") instance=ExtResource("1_e2o6t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 _camera = NodePath("../Camera3D")
 
 [node name="TrackGenerator" parent="." node_paths=PackedStringArray("player_reference", "kaiju_reference", "initial_tile_scene") instance=ExtResource("2_feb5d")]
 player_reference = NodePath("../Player")
 kaiju_reference = NodePath("../CharacterBody3D")
+terrain_velocity = 5.0
+tile_scale_factor = 7.0
 initial_tile_scene = NodePath("Track0")
 
 [node name="Track0" parent="TrackGenerator" instance=ExtResource("3_fc0e3")]
@@ -34,3 +37,5 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6, 3, 
 current = true
 script = ExtResource("5_7jktm")
 target = NodePath("../Player")
+
+[node name="ObstacleGenerator" parent="." instance=ExtResource("7_eow3j")]

@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://20l7pwq6ac66"]
+
+[ext_resource type="Script" uid="uid://jxgtd6gtyncg" path="res://Pickups/weapons/weapon_pickup.gd" id="1_b1658"]
+[ext_resource type="Texture2D" uid="uid://df3y4f5dhcifx" path="res://Assets/Textures/weapon_icons/phaser_shot_bake.png" id="1_em85m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tfqkw"]
+albedo_texture = ExtResource("1_em85m")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_offset = Vector3(-0.02, 0.5, 0)
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv2_offset = Vector3(-0.575, 0.12, -0.275)
+
+[sub_resource type="BoxMesh" id="BoxMesh_agxou"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_b1658"]
+
+[node name="WeaponIcon" type="Node3D"]
+script = ExtResource("1_b1658")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.353553, -0.353553, 0, -0.306186, -0.306186, -0.25, 0.176777, 0.176777, -0.433012, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_tfqkw")
+mesh = SubResource("BoxMesh_agxou")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_b1658")
+
+[node name="RotationTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, 0, 0)

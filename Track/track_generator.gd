@@ -1,5 +1,7 @@
 extends Node3D
 
+signal tile_made( _pos: Vector3)
+
 @export var player_reference: CharacterBody3D
 @export var kaiju_reference:  CharacterBody3D
 
@@ -9,30 +11,41 @@ var terrain_belt: Array[Node3D] = [] # -- container for track
 @export_dir var terrain_tiles_path = "res://Track/RunnerTracks/"
 
 @export_group("Tiles")
+@export var tile_scale_factor: float
 @export var initial_tile_scene: Node3D
 # -- this is assuming movement in the x direction (or track is oriented
 # -- such that the thinnest part in in x
-@onready var tile_len = initial_tile_scene.scale.x * initial_tile_scene.get_track_width()
+
+@onready var tile_len = initial_tile_scene.get_track_aabb_size().x * tile_scale_factor
 @export var num_tiles_in_front :int = 4
 @export var num_tiles_in_back :int = 4
 @onready var num_tiles_to_make := how_many_tiles_to_make_between_kaiju()
+
+func track_dims() -> Vector4:
+	var grid_aabb :Vector3 = initial_tile_scene.get_track_aabb_size()
+	return Vector4(grid_aabb.x, grid_aabb.y, grid_aabb.z, tile_scale_factor)
+
+func get_cut_off_dist() -> float:
+	# -- this isn't quite right
+	# -- should disappear when tile does
+	# magic num 2 is because the gen num is 2. * tile_len
+	return tile_len * (num_tiles_in_front + num_tiles_in_back - 2)
 
 func _ready() -> void:
 	assert( initial_tile_scene )
 	assert( kaiju_reference)
 	assert( player_reference )
 	
-	load_terrain_scenes(terrain_tiles_path)
-	init_tiles()
 	
+	load_terrain_scenes(terrain_tiles_path)
 	initial_tile_scene.queue_free()
 	#for child in get_children():
 		#print(child.global_position)
 
 func _physics_process(delta: float) -> void:
 	# -- closest tile is the last one in array
-	if abs(player_reference.global_position.x - terrain_belt[-1].global_position.x) <= 2.0 * tile_len:
-		increment_belt()
+		if abs(player_reference.global_position.x - terrain_belt[-1].global_position.x) <= 2.0 * tile_len:
+			increment_belt()
 
 func init_tiles():
 	# arr[0] most forward; arr[-1] most behind
@@ -58,8 +71,10 @@ func how_many_tiles_to_make_between_kaiju() -> int:
 
 
 func add_a_tile_to_belt(pos: Vector3):
+	emit_signal("tile_made", pos)
 	var rnd_tile = terrain_tiles_arr.pick_random().instantiate()
 	add_child(rnd_tile)
+	rnd_tile.scale = Vector3(tile_scale_factor, tile_scale_factor, tile_scale_factor)
 	terrain_belt.append(rnd_tile)
 	rnd_tile.global_position = pos
 

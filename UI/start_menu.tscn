@@ -1,10 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://c0vc7qj3i4q32"]
+[gd_scene load_steps=3 format=3 uid="uid://c0vc7qj3i4q32"]
 
 [ext_resource type="Script" uid="uid://dclsmjwuo7sto" path="res://UI/start_menu.gd" id="1_q5qyg"]
-[ext_resource type="Material" uid="uid://durrpcq771hh0" path="res://UI/start_menu.tres" id="2_f14c5"]
-[ext_resource type="Material" uid="uid://ckugb1dgghr0y" path="res://UI/quit_menu_mat.tres" id="2_neu3s"]
-[ext_resource type="Texture2D" uid="uid://cwermrpy2fvg4" path="res://icon.svg" id="3_f14c5"]
-[ext_resource type="Script" uid="uid://diwd3lwjaguog" path="res://UI/start_tex_btn.gd" id="4_j3hi8"]
+[ext_resource type="Texture2D" uid="uid://b2u4uxl5jagut" path="res://Assets/Textures/Menu_Graphics/KJ_Title_city.png" id="2_q5qyg"]
 
 [node name="StartMenu" type="Control"]
 layout_mode = 3
@@ -15,69 +12,43 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_q5qyg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 1150.0
+offset_bottom = 644.0
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 0
+offset_right = 1150.0
+offset_bottom = 646.0
+color = Color(0.94902, 0.94902, 0.658824, 1)
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 6
+anchor_left = 1.0
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
+offset_left = -775.0
+offset_top = -293.5
+offset_bottom = 293.5
+grow_horizontal = 0
 grow_vertical = 2
+texture = ExtResource("2_q5qyg")
+expand_mode = 5
+stretch_mode = 4
 
-[node name="StartMarginContainer" type="MarginContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 20)
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="start" type="HBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 
-[node name="StartTexBtn" type="TextureButton" parent="VBoxContainer/StartMarginContainer"]
-material = ExtResource("2_f14c5")
-layout_mode = 2
-texture_normal = ExtResource("3_f14c5")
-script = ExtResource("4_j3hi8")
-
-[node name="Label" type="Label" parent="VBoxContainer/StartMarginContainer/StartTexBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Start"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="QuitMarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="resume" type="HBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 
-[node name="QuitTxtBtn" type="TextureButton" parent="VBoxContainer/QuitMarginContainer"]
-material = ExtResource("2_neu3s")
+[node name="quit" type="HBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_f14c5")
-script = ExtResource("4_j3hi8")
-
-[node name="Label" type="Label" parent="VBoxContainer/QuitMarginContainer/QuitTxtBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Quit"
-horizontal_alignment = 1
-vertical_alignment = 1

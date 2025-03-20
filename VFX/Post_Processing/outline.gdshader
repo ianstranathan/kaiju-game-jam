@@ -38,6 +38,8 @@ uniform sampler2D _screen_texture: hint_screen_texture;
 // godot can only use depth buffer from the current viewport
 uniform sampler2D depth_tex: hint_depth_texture;
 
+uniform float darken:hint_range(0.0, 1.0, 0.1);
+
 void fragment() {
 	// set color to outline color for whole screen
 	// non-outline fragments will be set to transparent
@@ -68,6 +70,5 @@ void fragment() {
 	
 	// clamp the outline color to remove artifacts
 	ALPHA = clamp(ALPHA, 0.0, 1.0);
-	
-	//ALBEDO += vec3(1., 0., 0.);
+	ALPHA =  0.75 * darken + ALPHA * (1. - darken);
 }

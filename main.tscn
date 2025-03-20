@@ -1,15 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://qcwlvodqgy6n"]
+[gd_scene load_steps=6 format=3 uid="uid://qcwlvodqgy6n"]
 
 [ext_resource type="Script" uid="uid://bjfwuhdk60gfs" path="res://main.gd" id="1_lquwl"]
 [ext_resource type="Material" uid="uid://birrjqr7ogf68" path="res://VFX/Post_Processing/postprocess_mat.tres" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://cp6goy5fp0qxy" path="res://UI/pause_menu/pause_menu.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c0vc7qj3i4q32" path="res://UI/start_menu.tscn" id="5_lquwl"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_1bvp3"]
 flip_faces = true
 size = Vector2(2, 2)
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node"]
 script = ExtResource("1_lquwl")
+
+[node name="GameContainer" type="Node" parent="."]
 
 [node name="PostProcessingQuad" type="MeshInstance3D" parent="."]
 material_override = ExtResource("3_h2yge")
@@ -18,3 +21,5 @@ mesh = SubResource("QuadMesh_1bvp3")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="StartMenu" parent="CanvasLayer" instance=ExtResource("5_lquwl")]
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("4_1bvp3")]

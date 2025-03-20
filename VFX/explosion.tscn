@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cr5b1nltg2vr8"]
+[gd_scene load_steps=36 format=3 uid="uid://cr5b1nltg2vr8"]
 
 [ext_resource type="Script" uid="uid://d88suw66upm2" path="res://VFX/explosion.gd" id="1_85elf"]
 [ext_resource type="Material" uid="uid://bymxima7n8yrb" path="res://VFX/explosion_molten_mat.tres" id="2_8o8du"]
@@ -6,8 +6,7 @@
 [ext_resource type="Material" uid="uid://bqpaxo3y12nj" path="res://VFX/smoke_sphere_mat.tres" id="3_vfb3k"]
 [ext_resource type="Shader" uid="uid://c0hlasruf1aum" path="res://VFX/explosion_streaks.gdshader" id="4_y4wp7"]
 [ext_resource type="Texture2D" uid="uid://g6426hpsbkcc" path="res://Assets/Particles/T_4_streaks.png" id="5_u66jp"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_t2wis"]
+[ext_resource type="Script" uid="uid://bbwqq3ieruxub" path="res://Components/attack.gd" id="7_udpei"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_nhfc5"]
 
@@ -321,11 +320,11 @@ _data = {
 &"explode": SubResource("Animation_j5wl0")
 }
 
-[node name="Explosion" type="Area3D"]
-script = ExtResource("1_85elf")
+[sub_resource type="SphereShape3D" id="SphereShape3D_t2wis"]
+radius = 5.5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_t2wis")
+[node name="Explosion" type="Node3D"]
+script = ExtResource("1_85elf")
 
 [node name="bg_shock_wave" type="MeshInstance3D" parent="."]
 material_override = SubResource("ShaderMaterial_2nmg3")
@@ -337,7 +336,7 @@ material_override = ExtResource("2_8o8du")
 mesh = SubResource("SphereMesh_e6kd2")
 
 [node name="smoke" type="GPUParticles3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.624896, 0)
+transform = Transform3D(-0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, 0, 0.624896, 0)
 material_override = ExtResource("3_vfb3k")
 amount = 12
 lifetime = 1.5
@@ -360,6 +359,15 @@ draw_pass_1 = SubResource("QuadMesh_wn7vj")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_l0hjd")
+&"": SubResource("AnimationLibrary_l0hjd")
 }
 speed_scale = 0.33
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_t2wis")
+
+[node name="Attack" type="Node" parent="."]
+script = ExtResource("7_udpei")
+damage = 25.0

@@ -1,0 +1,45 @@
+[gd_scene load_steps=9 format=3 uid="uid://dl7pne46mi0qa"]
+
+[ext_resource type="Script" uid="uid://dap4o1j3vst8e" path="res://game.gd" id="1_7jktm"]
+[ext_resource type="PackedScene" uid="uid://r4ncqir4b5ji" path="res://Player/player.tscn" id="1_e2o6t"]
+[ext_resource type="PackedScene" uid="uid://ccc5gg3ylwnd2" path="res://Track/track_generator.tscn" id="2_feb5d"]
+[ext_resource type="PackedScene" uid="uid://b4uxfedkq3set" path="res://Track/RunnerTracks/track_0.tscn" id="3_fc0e3"]
+[ext_resource type="Script" uid="uid://7glabykuit1n" path="res://Camera/cam.gd" id="5_7jktm"]
+[ext_resource type="PackedScene" uid="uid://d3tkqlmnuscb7" path="res://Kaiju/kaiju.tscn" id="5_eow3j"]
+[ext_resource type="PackedScene" uid="uid://bjoy754a7yx0j" path="res://Track/obstacle_generator.tscn" id="7_eow3j"]
+[ext_resource type="PackedScene" uid="uid://bj3p8mxktpdun" path="res://UI/HUD.tscn" id="8_j5wjh"]
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_7jktm")
+
+[node name="Player" parent="." node_paths=PackedStringArray("_camera") instance=ExtResource("1_e2o6t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+_camera = NodePath("../Camera3D")
+
+[node name="Kaiju" parent="." node_paths=PackedStringArray("player_ref") instance=ExtResource("5_eow3j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+player_ref = NodePath("../Player")
+
+[node name="TrackGenerator" parent="." node_paths=PackedStringArray("player_reference", "kaiju_reference", "initial_tile_scene") instance=ExtResource("2_feb5d")]
+player_reference = NodePath("../Player")
+kaiju_reference = NodePath("../Kaiju")
+terrain_velocity = 5.0
+tile_scale_factor = 7.0
+initial_tile_scene = NodePath("Track0")
+
+[node name="Track0" parent="TrackGenerator" instance=ExtResource("3_fc0e3")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 0, 18.645, 7.21604)
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6, 3, 0)
+current = true
+script = ExtResource("5_7jktm")
+target = NodePath("../Player")
+
+[node name="ObstacleGenerator" parent="." instance=ExtResource("7_eow3j")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hud" parent="CanvasLayer" instance=ExtResource("8_j5wjh")]

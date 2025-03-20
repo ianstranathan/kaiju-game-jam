@@ -1,7 +1,10 @@
 extends CharacterBody3D
 
+class_name Player;
+
 @export var DEBUG: bool = false
 
+signal health_changed( ratio: float)
 
 @export_group("Movement")
 @export var _camera: Camera3D
@@ -60,7 +63,16 @@ func start_game():
 	state_transtion(state)
 
 
-func _ready() -> void:	
+func _ready() -> void:
+	$OilTimer.timeout.connect(func():
+		acceleration *= 100.0)
+	# --------
+	$Health.health_depleted.connect(func():
+		# !!!
+		get_tree().quit()
+	)
+	$Health.health_changed.connect( func(ratio: float): 
+		emit_signal("health_changed", ratio))
 	# -- TODO: I'm keeping this here for the splash screen
 	skin_animation_player.play("running")
 
@@ -118,3 +130,13 @@ func _physics_process(delta: float) -> void:
 		if !_turned_around:
 			var target_angle := Vector3.BACK.signed_angle_to(_last_movement_direction, Vector3.UP)
 			_skin.global_rotation.y = lerp_angle(_skin.global_rotation.y, target_angle, rotation_speed * delta)
+
+func take_hit( attack: Attack):
+	if !DEBUG:
+		$Hitbox.take_hit( attack )
+	
+func acceleration_curve( _name: String):
+	match _name:
+		"Oil":
+			acceleration = acceleration / 100.0
+			$OilTimer.start()

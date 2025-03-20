@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://brqxhcf8qu0hq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sbjb3"]
+transparency = 1
+albedo_color = Color(2, 0, 0, 0.066)
+
+[sub_resource type="SphereMesh" id="SphereMesh_y7nnu"]
+radius = 2.0
+height = 4.0
+
+[node name="DebugMarker" type="MeshInstance3D"]
+material_override = SubResource("StandardMaterial3D_sbjb3")
+mesh = SubResource("SphereMesh_y7nnu")

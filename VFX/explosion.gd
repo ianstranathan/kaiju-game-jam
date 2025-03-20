@@ -1,6 +1,11 @@
-extends Area3D
+extends Node3D
 
-signal last_particle_done
 
 func _ready() -> void:
-	$smoke.finished.connect( func(): emit_signal("last_particle_done"))
+	Events.emit_signal("shake_camera",  1 )
+	$AnimationPlayer.play("explode")
+	$smoke.finished.connect( func(): queue_free() )
+
+	$Area3D.body_entered.connect( func(body):
+		if body is Player or body is Kaiju:
+			body.take_hit($Attack))

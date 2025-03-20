@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://b8o5aleisdcmn"]
+
+[ext_resource type="PackedScene" uid="uid://b04i32ykwaqbe" path="res://Kaiju/Kaiju_Skin/kaiju anims.glb" id="1_l6wr2"]
+[ext_resource type="Shader" uid="uid://7dy3m5lltcfr" path="res://Kaiju/Kaiju_Skin/kaiju_skin.gdshader" id="2_5n2ov"]
+[ext_resource type="Script" uid="uid://dqcr2cfwbrvqo" path="res://Kaiju/Kaiju_Skin/kaiju_anims.gd" id="2_u7wcd"]
+[ext_resource type="Texture2D" uid="uid://dw83syul7pmtg" path="res://Kaiju/Kaiju_Skin/kaiju anims_kaiju texture.png" id="3_prlvp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5n2ov"]
+render_priority = 0
+shader = ExtResource("2_5n2ov")
+shader_parameter/use_shade = true
+shader_parameter/use_specular = true
+shader_parameter/use_rim = true
+shader_parameter/use_light = false
+shader_parameter/use_shadow = false
+shader_parameter/base_color = Color(0.89, 0.51, 0.39, 1)
+shader_parameter/shade_color = Color(0.302, 0.51, 0.5, 1)
+shader_parameter/specular_tint = Color(0.521141, 0.521141, 0.52114, 0.75)
+shader_parameter/rim_tint = Color(0.498732, 0.739727, 0.729669, 1)
+shader_parameter/shade_threshold = 0.0
+shader_parameter/shade_softness = 0.01
+shader_parameter/specular_glossiness = 50.4
+shader_parameter/specular_threshold = 0.5
+shader_parameter/specular_softness = 0.229
+shader_parameter/rim_threshold = 0.25
+shader_parameter/rim_softness = 0.05
+shader_parameter/rim_spread = 0.5
+shader_parameter/shadow_threshold = 0.7
+shader_parameter/shadow_softness = 0.1
+shader_parameter/texture_albedo = ExtResource("3_prlvp")
+
+[node name="kaiju anims" instance=ExtResource("1_l6wr2")]
+script = ExtResource("2_u7wcd")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/position = Vector3(-0.471342, 0.151716, -128.24)
+bones/0/rotation = Quaternion(-0.54488, -0.0426445, 0.0751662, 0.834049)
+bones/1/rotation = Quaternion(0.179385, 0.0896812, -0.0246424, 0.979373)
+bones/2/rotation = Quaternion(0.129146, 0.00694941, 0.0185861, 0.991427)
+bones/3/rotation = Quaternion(0.129807, 0.00690872, 0.0169434, 0.99137)
+bones/4/rotation = Quaternion(-0.408595, 0.0909497, -0.0958392, 0.903102)
+bones/5/rotation = Quaternion(-0.0653824, -0.142646, 0.0488385, 0.986404)
+bones/7/rotation = Quaternion(0.596383, 0.434395, -0.517684, 0.433165)
+bones/8/rotation = Quaternion(0.0852066, -0.0214294, 0.102575, 0.990838)
+bones/9/rotation = Quaternion(0.0182479, -0.218551, 0.402824, 0.888614)
+bones/11/rotation = Quaternion(0.563567, -0.451946, 0.502538, 0.474967)
+bones/12/rotation = Quaternion(-0.215235, 0.322307, -0.322791, 0.86348)
+bones/13/rotation = Quaternion(0.0157137, 0.18707, -0.349089, 0.918093)
+bones/15/rotation = Quaternion(0.0655084, 0.502331, 0.861256, -0.0401175)
+bones/16/rotation = Quaternion(-0.502928, -0.050417, -0.0315884, 0.862278)
+bones/17/rotation = Quaternion(0.650318, -0.0780884, -0.0252554, 0.755216)
+bones/18/rotation = Quaternion(0.0481212, 0.0169436, 0.0388909, 0.99794)
+bones/20/rotation = Quaternion(-0.162538, 0.131444, 0.975434, 0.0695164)
+bones/21/rotation = Quaternion(-0.230832, -0.229617, 0.116607, 0.938294)
+bones/22/rotation = Quaternion(0.618703, -0.0342851, -0.0733456, 0.781442)
+bones/23/rotation = Quaternion(0.254386, 0.0151525, -0.0317097, 0.966464)
+
+[node name="Cube" parent="Armature/Skeleton3D" index="0"]
+material_override = SubResource("ShaderMaterial_5n2ov")
+
+[node name="AnimationPlayer" parent="." index="1"]
+speed_scale = 0.25

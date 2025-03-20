@@ -10,3 +10,4 @@ shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/distance_falloff = 1.0
 shader_parameter/smoothing_cutoff = 0.1
 shader_parameter/smoothing_max = 0.0
+shader_parameter/darken = 0.0

@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://b23v0vr4vyk5l"]
+
+[ext_resource type="Shader" uid="uid://bldpwbs6etlku" path="res://UI/heart.gdshader" id="1_jnnye"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gppie"]
+resource_local_to_scene = true
+shader = ExtResource("1_jnnye")
+shader_parameter/is_leading_heart = 0.0
+
+[sub_resource type="Gradient" id="Gradient_4n7mi"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uk570"]
+gradient = SubResource("Gradient_4n7mi")
+
+[node name="TextureRect" type="TextureRect"]
+material = SubResource("ShaderMaterial_gppie")
+texture = SubResource("GradientTexture2D_uk570")

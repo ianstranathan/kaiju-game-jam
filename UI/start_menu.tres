@@ -1,9 +1,20 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://durrpcq771hh0"]
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://cgv8ca2k1vnuy"]
 
-[ext_resource type="Shader" uid="uid://06wu28xvyg8d" path="res://UI/start_menu.gdshader" id="1_urepe"]
+[ext_resource type="FontFile" uid="uid://by7onjt5y2ts0" path="res://Fonts/America Faster Regular.ttf" id="1_urepe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_urepe"]
+bg_color = Color(0.941176, 0.658824, 0.262745, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j3hi8"]
+bg_color = Color(0.301961, 0.67451, 0.737255, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_neu3s"]
+bg_color = Color(0.941176, 0.658824, 0.262745, 1)
 
 [resource]
-resource_local_to_scene = true
-shader = ExtResource("1_urepe")
-shader_parameter/color = Color(0.894118, 0.505882, 0.396078, 1)
-shader_parameter/is_hovering = 0.0
+Button/colors/font_color = Color(0.105882, 0.0352941, 0.0431373, 1)
+Button/font_sizes/font_size = 60
+Button/fonts/font = ExtResource("1_urepe")
+Button/styles/hover = SubResource("StyleBoxFlat_urepe")
+Button/styles/normal = SubResource("StyleBoxFlat_j3hi8")
+Button/styles/pressed = SubResource("StyleBoxFlat_neu3s")

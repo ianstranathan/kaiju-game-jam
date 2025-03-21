@@ -3,8 +3,8 @@ extends Control
 signal resume
 signal quit_to_main
 
-@onready var resume_btn = $VBoxContainer/PauseMarginContainer/ResumeTxtBtn
-@onready var quit_btn = $VBoxContainer/QuitMarginContainer/QuitTxtBtn
+@onready var resume_btn = $VBoxContainer/resume
+@onready var quit_btn   = $VBoxContainer/quit
 
 
 func _ready() -> void:

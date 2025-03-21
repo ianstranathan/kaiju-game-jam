@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://cp6goy5fp0qxy"]
+[gd_scene load_steps=4 format=3 uid="uid://cp6goy5fp0qxy"]
 
 [ext_resource type="Script" uid="uid://b0a2vnf5qx2we" path="res://UI/pause_menu/pause_menu.gd" id="1_0q86m"]
-[ext_resource type="Material" uid="uid://durrpcq771hh0" path="res://UI/start_menu.tres" id="1_kju1d"]
-[ext_resource type="Texture2D" uid="uid://cwermrpy2fvg4" path="res://icon.svg" id="2_0q86m"]
-[ext_resource type="Script" uid="uid://diwd3lwjaguog" path="res://UI/start_tex_btn.gd" id="3_dlhnu"]
-[ext_resource type="Material" uid="uid://ckugb1dgghr0y" path="res://UI/quit_menu_mat.tres" id="4_uk0xg"]
+[ext_resource type="Theme" uid="uid://cgv8ca2k1vnuy" path="res://UI/start_menu/start_menu.tres" id="1_kju1d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2n0y6"]
+content_margin_left = 10.0
+content_margin_top = 20.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.301961, 0.670588, 0.792157, 1)
 
 [node name="PauseMenu" type="Control"]
 layout_mode = 3
@@ -22,62 +26,24 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -122.0
+offset_top = -87.5
+offset_right = 122.0
+offset_bottom = 87.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_kju1d")
+theme_override_constants/separation = 75
 
-[node name="PauseMarginContainer" type="MarginContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 20)
+[node name="resume" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_2n0y6")
+text = "Resume
+"
 
-[node name="ResumeTxtBtn" type="TextureButton" parent="VBoxContainer/PauseMarginContainer"]
-material = ExtResource("1_kju1d")
+[node name="quit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("2_0q86m")
-script = ExtResource("3_dlhnu")
-
-[node name="Label" type="Label" parent="VBoxContainer/PauseMarginContainer/ResumeTxtBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Resume"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="QuitMarginContainer" type="MarginContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="QuitTxtBtn" type="TextureButton" parent="VBoxContainer/QuitMarginContainer"]
-material = ExtResource("4_uk0xg")
-layout_mode = 2
-texture_normal = ExtResource("2_0q86m")
-script = ExtResource("3_dlhnu")
-
-[node name="Label" type="Label" parent="VBoxContainer/QuitMarginContainer/QuitTxtBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
+size_flags_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_2n0y6")
 text = "Quit"
-horizontal_alignment = 1
-vertical_alignment = 1

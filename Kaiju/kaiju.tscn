@@ -58,3 +58,7 @@ metadata/_custom_type_script = "uid://grpwcbu4xdin"
 
 [node name="FireballPauseTimer" type="Timer" parent="."]
 wait_time = 2.0
+
+[node name="StartDelayTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true

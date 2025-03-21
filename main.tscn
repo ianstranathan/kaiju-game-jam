@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bjfwuhdk60gfs" path="res://main.gd" id="1_lquwl"]
 [ext_resource type="Material" uid="uid://birrjqr7ogf68" path="res://VFX/Post_Processing/postprocess_mat.tres" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cp6goy5fp0qxy" path="res://UI/pause_menu/pause_menu.tscn" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://c0vc7qj3i4q32" path="res://UI/start_menu.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://c0vc7qj3i4q32" path="res://UI/start_menu/start_menu.tscn" id="5_lquwl"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_1bvp3"]
 flip_faces = true
@@ -21,5 +21,6 @@ mesh = SubResource("QuadMesh_1bvp3")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="StartMenu" parent="CanvasLayer" instance=ExtResource("5_lquwl")]
+visible = false
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("4_1bvp3")]

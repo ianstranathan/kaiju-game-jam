@@ -3,11 +3,13 @@ extends StaticBody3D
 var player_ref: CharacterBody3D
 var cut_off_dist: float
 var cut_off_dist_sqr: float
-
+@export var DEBUG: bool = false
 func _ready() -> void:
-	assert(player_ref and cut_off_dist)
-	cut_off_dist_sqr = cut_off_dist * cut_off_dist
+	if !DEBUG:
+		assert(player_ref and cut_off_dist)
+		cut_off_dist_sqr = cut_off_dist * cut_off_dist
 
 func _physics_process(delta: float) -> void:
-	if (player_ref.global_position - global_position).length_squared() > cut_off_dist_sqr:
-		queue_free()
+	if !DEBUG:
+		if (player_ref.global_position - global_position).length_squared() > cut_off_dist_sqr:
+			queue_free()

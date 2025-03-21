@@ -5,5 +5,5 @@ extends Node
 	#NOISE,
 	#Sway
 #}
-
+signal game_over( won: bool )
 signal shake_camera( enum_type: int)

@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://d3tkqlmnuscb7"]
+[gd_scene load_steps=12 format=3 uid="uid://d3tkqlmnuscb7"]
 
 [ext_resource type="Script" uid="uid://baacflgddp6rh" path="res://Kaiju/kaiju.gd" id="1_1j1w1"]
 [ext_resource type="Shader" uid="uid://dd47n5mqp1vb0" path="res://Kaiju/fireball_cue.gdshader" id="3_8anr7"]
 [ext_resource type="Texture2D" uid="uid://vghxr4aib41r" path="res://Assets/Textures/star_08.png" id="4_eg38s"]
 [ext_resource type="Texture2D" uid="uid://cwermrpy2fvg4" path="res://icon.svg" id="4_tvs07"]
 [ext_resource type="PackedScene" uid="uid://b8o5aleisdcmn" path="res://Kaiju/Kaiju_Skin/kaiju_anims.tscn" id="5_tvs07"]
+[ext_resource type="Script" uid="uid://cdvoulmb50i3n" path="res://Components/hitbox.gd" id="6_tp5tf"]
+[ext_resource type="Script" uid="uid://grpwcbu4xdin" path="res://Components/health.gd" id="7_ufvcs"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_08cdx"]
 radius = 3.0
@@ -23,7 +25,7 @@ shader_parameter/star_tex = ExtResource("4_eg38s")
 shader_parameter/color = Color(2.6, 0.8, 0.2, 1)
 shader_parameter/noise = SubResource("NoiseTexture2D_eg38s")
 
-[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("_skin")]
+[node name="Kaiju" type="CharacterBody3D" node_paths=PackedStringArray("_skin")]
 collision_layer = 2
 script = ExtResource("1_1j1w1")
 _skin = NodePath("kaiju anims")
@@ -35,13 +37,6 @@ shape = SubResource("CapsuleShape3D_08cdx")
 [node name="FireballEmitter" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 11.5, 0)
 
-[node name="FireballTimer" type="Timer" parent="."]
-wait_time = 4.0
-
-[node name="StartTimer" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
-
 [node name="ShootingCueSprite" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.730793, 15.439, 9.07403)
 material_override = SubResource("ShaderMaterial_eg38s")
@@ -51,3 +46,15 @@ texture = ExtResource("4_tvs07")
 
 [node name="kaiju anims" parent="." instance=ExtResource("5_tvs07")]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="Hitbox" type="Node" parent="." node_paths=PackedStringArray("health")]
+script = ExtResource("6_tp5tf")
+health = NodePath("../Health")
+metadata/_custom_type_script = "uid://cdvoulmb50i3n"
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("7_ufvcs")
+metadata/_custom_type_script = "uid://grpwcbu4xdin"
+
+[node name="FireballPauseTimer" type="Timer" parent="."]
+wait_time = 2.0

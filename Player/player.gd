@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-class_name Player;
+class_name Player
 
 @export var DEBUG: bool = false
 
@@ -12,11 +12,16 @@ signal health_changed( ratio: float)
 var _last_movement_direction := Vector3.BACK
 @export var v_x := 8.0
 @export var x_h := 3.0
-@export var acceleration := 20.0
+@export var base_acceleration := 20.0
+@onready var acceleration := base_acceleration
 @export var jump_height_units := 2.0
 @onready var _h = jump_height_units + 0.2 * $CollisionShape3D.shape.height
 @onready var v_0 :float = 2. * _h * v_x / x_h
 @onready var _gravity :float = -2. * _h * (v_x * v_x) / (x_h * x_h)
+
+@export_group("Accelerations")
+@export var oil_acceleration_factor: float = 80.0
+@onready var oil_acceleration = base_acceleration / oil_acceleration_factor
 
 # --------------------------------------------------
 @export_group("Skin")
@@ -64,8 +69,10 @@ func start_game():
 
 
 func _ready() -> void:
+	if DEBUG:
+		start_game()
 	$OilTimer.timeout.connect(func():
-		acceleration *= 100.0)
+		environemtnal_state_transition( EnvironmentalStates.NORMAL ))
 	# --------
 	$Health.health_depleted.connect(func():
 		# !!!
@@ -75,6 +82,13 @@ func _ready() -> void:
 		emit_signal("health_changed", ratio))
 	# -- TODO: I'm keeping this here for the splash screen
 	skin_animation_player.play("running")
+
+
+func progressive_accl_increase(delta: float):
+	# -- there's an edge case where you get "stuck" on static geometry
+	# -- if your accl is too low
+	if acceleration < base_acceleration:
+		acceleration += delta
 
 
 func _input(event: InputEvent) -> void:
@@ -93,7 +107,16 @@ func movement(dir: Vector3, delta: float) -> void:
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		state_transtion(States.JUMPING)
 		velocity.y += v_0
-	move_and_slide()
+		
+	# -- Check for edge case with getting stuck in geometry because
+	# -- you can't overcome the collision resolution
+	var tmp_vel_check_from_input = velocity
+	var coll = move_and_slide()
+	if coll:
+		var _collision = get_last_slide_collision()
+		if _collision.get_collider().is_in_group("Obstacles") and tmp_vel_check_from_input.length_squared() > 1.0:
+			acceleration = base_acceleration
+	
 
 func move_dir_from_input() -> Vector3:
 	var raw_input := Input.get_vector("left", "right", "up", "down")
@@ -134,9 +157,41 @@ func _physics_process(delta: float) -> void:
 func take_hit( attack: Attack):
 	if !DEBUG:
 		$Hitbox.take_hit( attack )
-	
-func acceleration_curve( _name: String):
+
+
+enum EnvironmentalStates{
+	NORMAL,
+	OILY,
+}
+@onready var environmental_state = EnvironmentalStates.NORMAL
+func environemtnal_state_transition( new_environmental_state: EnvironmentalStates):
+	enter_env_state( new_environmental_state)
+	exit_env_state( environmental_state) 
+	environmental_state = environmental_state
+
+
+func enter_env_state( new_environmental_state: EnvironmentalStates):
+	match new_environmental_state:
+		EnvironmentalStates.NORMAL:
+			acceleration = base_acceleration
+		EnvironmentalStates.OILY:
+			acceleration = oil_acceleration
+
+
+func exit_env_state( last_environmental_state: EnvironmentalStates):
+	match last_environmental_state:
+		EnvironmentalStates.NORMAL:
+			pass
+		EnvironmentalStates.OILY:
+			pass
+			#acceleration = base_acceleration
+
+
+func acceleration_curve( _name: String, b: bool):
+	# -- type, is entering or leaving
 	match _name:
 		"Oil":
-			acceleration = acceleration / 100.0
-			$OilTimer.start()
+			if b:
+				environemtnal_state_transition( EnvironmentalStates.OILY)
+			else:
+				$OilTimer.start()

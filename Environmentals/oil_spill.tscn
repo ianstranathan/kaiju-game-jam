@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://dcwbebpgedjd4" path="res://Environmentals/oil_spill.gd" id="1_adk64"]
 [ext_resource type="Texture2D" uid="uid://dd8mjngsc8fiy" path="res://Assets/Textures/Splats/splat08.png" id="2_mx6jg"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_adk64"]
-size = Vector3(4, 4, 4)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_mx6jg"]
+height = 0.25
+radius = 2.25
 
 [sub_resource type="Shader" id="Shader_mx6jg"]
 code = "// NOTE: Shader automatically converted from Godot Engine 4.4.stable's StandardMaterial3D.
@@ -89,7 +90,7 @@ script = ExtResource("1_adk64")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.529549, 0)
-shape = SubResource("BoxShape3D_adk64")
+shape = SubResource("CylinderShape3D_mx6jg")
 debug_color = Color(0.841, 0.001, 0.922, 0.713)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

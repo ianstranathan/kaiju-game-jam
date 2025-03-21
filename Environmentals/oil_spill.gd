@@ -30,8 +30,11 @@ func _ready() -> void:
 
 	$Area3D.body_entered.connect(func(body):
 		if body is Player:
-			body.acceleration_curve( "Oil"))
+			body.acceleration_curve( "Oil", true))
 
+	$Area3D.body_exited.connect(func(body):
+		if body is Player:
+			body.acceleration_curve( "Oil", false))
 
 # TODO
 func _physics_process(delta: float) -> void:

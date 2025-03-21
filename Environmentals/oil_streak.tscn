@@ -1,7 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxrmtqiuc6soo"]
+[gd_scene load_steps=3 format=3 uid="uid://cxrmtqiuc6soo"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_ujxg1"]
+[ext_resource type="Script" uid="uid://bdofv6uv03xku" path="res://Environmentals/oil_streak.gd" id="1_oqnvl"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_oqnvl"]
 
 [node name="OilStreak" type="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0)
-mesh = SubResource("QuadMesh_ujxg1")
+mesh = SubResource("ImmediateMesh_oqnvl")
+script = ExtResource("1_oqnvl")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.74228e-08, 2)

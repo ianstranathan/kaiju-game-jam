@@ -6,7 +6,7 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1cah4"]
 
-[node name="TestObstacle" type="StaticBody3D"]
+[node name="TestObstacle" type="StaticBody3D" groups=["Obstacles"]]
 collision_layer = 4
 script = ExtResource("1_1cah4")
 

@@ -15,9 +15,15 @@ signal track_grid_requested( fn: Callable)
 var ground_height: float
 var grid_scale: float
 
-	
+
 var cut_off_dist: float
 var player_ref: CharacterBody3D
+
+@onready var rand = RandomNumberGenerator.new()
+
+func _ready() -> void:
+	rand.randomize()
+
 func set_grid(_grid: Vector4):
 	# _grid: # e.g. (2.0, 0.1, 2.0, 7.0)
 	grid_scale    = _grid.w
@@ -54,8 +60,8 @@ func make_a_box(pos: Vector3, k_loop_height_offset=0):
 func generate_obstacles(pos_offset: Vector3, noise_offset=0.0):
 	# -- single big thing will test against a single random number on the grid
 	# -- e.g. a single oil spill
-	var rnd_big_x = randi() % int(grid_size.x)
-	var rnd_big_y = randi() % int(grid_size.y)
+	var rnd_big_x = rand.randi() % int(grid_size.x)
+	var rnd_big_y = rand.randi() % int(grid_size.y)
 	#print(rnd_big_x, ": ", rnd_big_x)
 	for i in range(grid_size.x):
 		for j in range( grid_size.y):
@@ -70,12 +76,12 @@ func generate_obstacles(pos_offset: Vector3, noise_offset=0.0):
 				continue
 			# --
 			var noise_sample = noise.get_noise_2d(i * 10. + noise_offset, j * 10. + noise_offset)
-			if noise_sample > randf():
+			if noise_sample > rand.randf():
 				var pos = grid_pos_from_offset(pos_offset, Vector2(i, j))
 				make_a_box( pos )
 				#make_the_object( pos )
 				for k in range(4):
-					if noise.get_noise_1d( (i + j + k) * 10.0  + noise_offset) > 0.5 * randf():
+					if noise.get_noise_1d( (i + j + k) * 10.0  + noise_offset) > 0.5 * rand.randf():
 						var height_pos = Vector3(pos.x, k, pos.z)
 						make_a_box( height_pos, k )
 						#make_the_object( height_pos, k)

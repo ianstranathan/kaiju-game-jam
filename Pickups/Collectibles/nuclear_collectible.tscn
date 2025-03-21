@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://dh52e541qg3gf"]
+
+[ext_resource type="Shader" uid="uid://cbuxxcqhg5gsf" path="res://Pickups/Collectibles/nuclear_collectible.gdshader" id="1_d2lib"]
+[ext_resource type="Script" uid="uid://dmojnb4k2lrxg" path="res://Pickups/Collectibles/nuclear_collectible.gd" id="1_ny1x4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ny1x4"]
+render_priority = 0
+shader = ExtResource("1_d2lib")
+shader_parameter/color = Color(0.7, 4, 0.3, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_71mjk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_e20t0"]
+
+[node name="NuclearCollectible" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_ny1x4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_ny1x4")
+mesh = SubResource("SphereMesh_71mjk")
+
+[node name="Area3D" type="Area3D" parent="."]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_e20t0")

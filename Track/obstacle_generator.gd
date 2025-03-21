@@ -6,7 +6,7 @@ signal track_grid_requested( fn: Callable)
 @export var oil_scene: PackedScene = preload("res://Environmentals/oil_spill.tscn")
 @export var test_obstacle_scene: PackedScene = preload("res://Track/Obstacles/test_obstacle.tscn")
 @export var debug_marker_scene: PackedScene = preload("res://Debug/debug_marker.tscn")
-
+@export var nuclear_sphere_obstacle: PackedScene = preload("res://Pickups/Collectibles/nuclear_collectible.tscn")
 @onready var noise: FastNoiseLite = FastNoiseLite.new()
 
 # TODO: scaling tracks offsets the ground
@@ -85,6 +85,11 @@ func generate_obstacles(pos_offset: Vector3, noise_offset=0.0):
 						var height_pos = Vector3(pos.x, k, pos.z)
 						make_a_box( height_pos, k )
 						#make_the_object( height_pos, k)
+			else:
+				if rand.randf() > 0.9:
+					var pos = grid_pos_from_offset(pos_offset, Vector2(i, j))
+					var nuclear_waste = nuclear_sphere_obstacle.instantiate()
+					make_an_obstacle(nuclear_waste, pos, 0.5)
 
 
 

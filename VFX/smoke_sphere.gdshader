@@ -14,7 +14,7 @@ float EaseInCubic(float x)
 }
 
 float EaseOutCubic(float x)
-{ 
+{
    return 1.0 - pow(1.0 - x,3.0);
 }
 
@@ -51,8 +51,8 @@ void fragment() {
 	float zero_to_1 = 0.5 * (sin(3. * TIME) + 1.);
 	vec3 explosion_col = mix(darker_base_color.xyz, base_color.xyz, adjusted_vor_noise_sample * _amount * zero_to_1);
 	//vec3 explosion_col = mix(darker_base_color.xyz, base_col_with_amount, adjusted_vor_noise_sample);
-	
-	ALBEDO =  mix(dark_color.xyz, 
+
+	ALBEDO =  mix(dark_color.xyz,
 				 _amount * explosion_col,
 				 adjusted_vor_noise_sample) * 1.;
 	ALPHA = smoothstep(COLOR.a, COLOR.a + 0.2, extra_noise_sample.r);

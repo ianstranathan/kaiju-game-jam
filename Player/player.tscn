@@ -1,16 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://r4ncqir4b5ji"]
+[gd_scene load_steps=8 format=3 uid="uid://r4ncqir4b5ji"]
 
 [ext_resource type="Script" uid="uid://by2jd4eu5t7w0" path="res://Player/player.gd" id="1_1c8h4"]
 [ext_resource type="PackedScene" uid="uid://0xj6hkwuxe05" path="res://Player/Player_Skin/player_animations.tscn" id="2_4ntmi"]
 [ext_resource type="Script" uid="uid://cdvoulmb50i3n" path="res://Components/hitbox.gd" id="3_btcbx"]
 [ext_resource type="Script" uid="uid://grpwcbu4xdin" path="res://Components/health.gd" id="4_gwnis"]
+[ext_resource type="PackedScene" uid="uid://6x1o4tkijoul" path="res://VFX/muzzle_flash/muzzle_flash.tscn" id="5_k53q1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_anwvx"]
 radius = 0.2
 height = 1.8
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_gwnis"]
+
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_skin")]
-collision_mask = 5
+collision_mask = 21
 script = ExtResource("1_1c8h4")
 DEBUG = true
 _skin = NodePath("player animations")
@@ -37,11 +40,18 @@ one_shot = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.87689, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivotPoint"]
-collision_mask = 2
-spring_length = 6.0
+transform = Transform3D(1, 0, 0, 0, 0.90957, 0.415551, 0, -0.415551, 0.90957, 0, 0.932568, 0)
+collision_mask = 18
+shape = SubResource("SphereShape3D_gwnis")
+spring_length = 8.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivotPoint/SpringArm3D"]
 
 [node name="ShootingCooldownTimer" type="Timer" parent="."]
 wait_time = 0.6
+one_shot = true
+
+[node name="MuzzleFlash" parent="." instance=ExtResource("5_k53q1")]
+
+[node name="SpeedBoostTimer" type="Timer" parent="."]
 one_shot = true

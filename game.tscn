@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dl7pne46mi0qa"]
+[gd_scene load_steps=11 format=3 uid="uid://dl7pne46mi0qa"]
 
 [ext_resource type="Script" uid="uid://dap4o1j3vst8e" path="res://game.gd" id="1_7jktm"]
 [ext_resource type="PackedScene" uid="uid://r4ncqir4b5ji" path="res://Player/player.tscn" id="1_e2o6t"]
@@ -8,6 +8,17 @@
 [ext_resource type="PackedScene" uid="uid://bjoy754a7yx0j" path="res://Track/obstacle_generator.tscn" id="7_eow3j"]
 [ext_resource type="PackedScene" uid="uid://bj3p8mxktpdun" path="res://UI/HUD.tscn" id="8_j5wjh"]
 [ext_resource type="Script" uid="uid://bmosl4lmobt1l" path="res://vfx_container.gd" id="9_vef74"]
+
+[sub_resource type="Environment" id="Environment_j5wjh"]
+tonemap_mode = 3
+glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_albedo = Color(0.3, 0.5, 0.494, 1)
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_vef74"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 20.0
+dof_blur_far_transition = 10.0
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_7jktm")
@@ -42,3 +53,8 @@ script = ExtResource("9_vef74")
 
 [node name="Player" parent="." instance=ExtResource("1_e2o6t")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.60035, 0)
+DEBUG = false
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_j5wjh")
+camera_attributes = SubResource("CameraAttributesPractical_vef74")

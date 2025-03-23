@@ -18,4 +18,5 @@ func take_attack_damage( damage: float):
 
 func heal( _health):
 	health += _health
+	health = clamp(health, 0, 100)
 	emit_signal("health_changed", health / starting_health)

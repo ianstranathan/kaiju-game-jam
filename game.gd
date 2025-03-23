@@ -3,10 +3,18 @@ extends Node3D
 @export var fog_dist := 100.0
 @export var obstacle_noise_seed := 10.0
 func _ready() -> void:
-
+	$CanvasLayer/Hud.game_timer_requested.connect( func(fn): fn.call($ExtractionTimer))
+	# -- PLAYER SIGNALS
 	$Player.health_changed.connect( func( ratio: float):
 		$CanvasLayer/Hud.update_health( ratio ))
-		
+	$Player.energy_used.connect(  func( ratio: float):
+		$CanvasLayer/Hud.update_energy( ratio ))
+	$Player.energy_refilled.connect(  func( ratio: float):
+		$CanvasLayer/Hud.update_energy( ratio ))
+	$Player.projectile_shot.connect( func(projectile_instance, callback_fn: Callable):
+		$VFX_container.add_child(projectile_instance)
+		callback_fn.call())
+
 	# TODO: wrap this all up more cleanly please
 	$ObstacleGenerator.cut_off_dist = fog_dist
 	$ObstacleGenerator.player_ref = $Player
@@ -27,10 +35,6 @@ func _ready() -> void:
 		$VFX_container.add_child(_fireball_instance)
 		# -- closure around instance -> position correctly
 		callback_fn.call())
-		
-	$Player.projectile_shot.connect( func(projectile_instance, callback_fn: Callable):
-		$VFX_container.add_child(projectile_instance)
-		callback_fn.call())
 
 	start_game()
 
@@ -39,6 +43,3 @@ func _ready() -> void:
 func start_game():
 	extraction_timer.start()
 	$TrackGenerator.init_tiles()
-
-func _physics_process(delta: float) -> void:
-	HUD.update_timer(extraction_timer.time_left / extraction_timer.wait_time)

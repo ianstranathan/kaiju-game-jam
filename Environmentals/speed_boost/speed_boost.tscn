@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://tcop3jhj08d4"]
+
+[ext_resource type="Script" uid="uid://bk0ecat5c3ikg" path="res://Environmentals/speed_boost/speed_boost.gd" id="1_k742u"]
+[ext_resource type="Shader" uid="uid://dq7e2u5sqb3fj" path="res://Environmentals/speed_boost/speed_boost.gdshader" id="1_xb64s"]
+[ext_resource type="Texture2D" uid="uid://cwermrpy2fvg4" path="res://icon.svg" id="2_ni1kl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ni1kl"]
+size = Vector3(2, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k742u"]
+render_priority = 0
+shader = ExtResource("1_xb64s")
+shader_parameter/tex = ExtResource("2_ni1kl")
+shader_parameter/glow_color = Color(2.3, 1.2, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3h6pk"]
+size = Vector3(2, 1, 0.1)
+
+[node name="SpeedBoost" type="Node3D"]
+script = ExtResource("1_k742u")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375461, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_ni1kl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.375461, 0)
+material_override = SubResource("ShaderMaterial_k742u")
+mesh = SubResource("BoxMesh_3h6pk")

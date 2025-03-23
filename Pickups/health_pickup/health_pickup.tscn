@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bs5hbenr3vknk"]
+[gd_scene load_steps=7 format=3 uid="uid://bs5hbenr3vknk"]
 
 [ext_resource type="Texture2D" uid="uid://dc1blknmljya2" path="res://Assets/Textures/Pickups/health-normal.svg" id="1_01648"]
 [ext_resource type="Shader" uid="uid://qhqxhoiltghq" path="res://Pickups/health_pickup/health_pickup.gdshader" id="1_awyve"]
+[ext_resource type="Script" uid="uid://ch56j83q6ig8w" path="res://Pickups/health_pickup/health_pickup.gd" id="1_tm2pa"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wkcxt"]
 
@@ -15,12 +16,15 @@ shader_parameter/uv1_offset = Vector3(0, 0, 0)
 [sub_resource type="BoxMesh" id="BoxMesh_01648"]
 
 [node name="HealthPickup" type="Node3D"]
+script = ExtResource("1_tm2pa")
 
 [node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13377, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_wkcxt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13377, 0)
 material_override = SubResource("ShaderMaterial_xl6eh")
 mesh = SubResource("BoxMesh_01648")

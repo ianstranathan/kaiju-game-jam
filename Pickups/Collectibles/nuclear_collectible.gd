@@ -1,20 +1,12 @@
-extends Node3D
+extends Pickup
 
-var player_ref: CharacterBody3D
-var cut_off_dist: float
-var cut_off_dist_sqr: float
-@export var DEBUG: bool = false
+@export var damage_amount: float = 25.0
+
 func _ready() -> void:
-	if !DEBUG:
-		assert(player_ref and cut_off_dist)
-		cut_off_dist_sqr = cut_off_dist * cut_off_dist
+	super()
+	# -- add to Kaiju health
+	#$Area3D.body_entered
 
-	$Area3D.body_entered.connect(func(body):
-		if body is Player:
-			queue_free())
-
-func _physics_process(delta: float) -> void:
-	if !DEBUG:
-		if (player_ref.global_position - global_position).length_squared() > cut_off_dist_sqr:
-			queue_free()
-			
+func pickup_fn(body: Player):
+	body.take_damage(damage_amount)
+	queue_free()

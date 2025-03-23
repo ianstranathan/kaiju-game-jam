@@ -4,22 +4,7 @@
 [ext_resource type="Script" uid="uid://d20uffmmepxop" path="res://Pickups/weapons/projectile.gd" id="1_nrcvi"]
 [ext_resource type="Texture2D" uid="uid://m72vwvy7f8m" path="res://Assets/Particles/Kenny_Particle_Pack/circle_05.png" id="3_x4v6s"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_cgbbw"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nrcvi"]
-seamless = true
-noise = SubResource("FastNoiseLite_cgbbw")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nrcvi"]
-render_priority = 0
-shader = ExtResource("1_cgbbw")
-shader_parameter/noise_tex = SubResource("NoiseTexture2D_nrcvi")
-shader_parameter/color = Color(0.2, 1.1, 2.3, 0.999)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_q7sxr"]
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_x4v6s"]
-radius = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jv6kn"]
 blend_mode = 1
@@ -35,7 +20,7 @@ albedo_texture = ExtResource("3_x4v6s")
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_8fftp"]
+[sub_resource type="CurveTexture" id="CurveTexture_x4v6s"]
 curve = SubResource("Curve_es333")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x4v6s"]
@@ -51,19 +36,28 @@ radial_velocity_min = 0.999978
 radial_velocity_max = 4.99998
 gravity = Vector3(0, 0, 0)
 scale_max = 2.0
-scale_curve = SubResource("CurveTexture_8fftp")
+scale_curve = SubResource("CurveTexture_x4v6s")
 color = Color(0.2, 1.1, 2.3, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_ieg7j"]
 size = Vector2(0.1, 0.5)
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_x4v6s"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_x4v6s"]
+seamless = true
+noise = SubResource("FastNoiseLite_x4v6s")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x4v6s"]
+render_priority = 0
+shader = ExtResource("1_cgbbw")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_x4v6s")
+shader_parameter/color = Color(0.25, 1.1, 2.3, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nrcvi"]
+
 [node name="Basic" type="Node3D"]
 script = ExtResource("1_nrcvi")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.5, 0, 0, 0, -6.55671e-08, 1.5, 0, -1.5, -6.55671e-08, 0, -0.0405011, 1.75385)
-material_override = SubResource("ShaderMaterial_nrcvi")
-mesh = SubResource("CapsuleMesh_q7sxr")
 
 [node name="Area3D" type="Area3D" parent="."]
 
@@ -78,3 +72,8 @@ lifetime = 0.35
 explosiveness = 0.4
 process_material = SubResource("ParticleProcessMaterial_x4v6s")
 draw_pass_1 = SubResource("QuadMesh_ieg7j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.3, 0, 0, 0, -5.68248e-08, 1.3, 0, -1.3, -5.68248e-08, 0, 0, 1.19281)
+material_override = SubResource("ShaderMaterial_x4v6s")
+mesh = SubResource("CapsuleMesh_nrcvi")

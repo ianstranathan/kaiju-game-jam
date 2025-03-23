@@ -6,7 +6,9 @@ class_name Player
 
 signal health_changed( ratio: float)
 signal projectile_shot( _projectile_instance, fn )
-
+signal energy_used( ratio)
+signal energy_refilled(ratio)
+	
 @export_group("Camera")
 @export_range(0.0, 1.0) var mouse_sensitivity := 0.25
 @export var rho_upper_limit := PI / 3.0
@@ -22,7 +24,9 @@ var _camera_input_direction := Vector2.ZERO
 @export_group("Movement")
 @export var rotation_speed := 12.0
 var _last_movement_direction := Vector3.BACK
-@export var v_x := 8.0
+@export var base_v_x := 8.0
+@onready var v_x := base_v_x
+@onready var speedy_v_x = v_x * 10.0
 @export var x_h := 3.0
 @export var base_acceleration := 20.0
 @onready var acceleration := base_acceleration
@@ -38,6 +42,10 @@ var _last_movement_direction := Vector3.BACK
 # --------------------------------------------------
 @export_group("Skin")
 @export var _skin :Node3D
+
+@export_group("energy")
+@export var num_energy_shots = 10.0
+@export var energy = 1.0
 # --------------------------------------------------
 @onready var initial_position:= global_position
 
@@ -53,6 +61,8 @@ func _ready() -> void:
 	_camera.current = true
 	$OilTimer.timeout.connect(func():
 		environemtnal_state_transition( EnvironmentalStates.NORMAL ))
+	$SpeedBoostTimer.timeout.connect( func():
+		environemtnal_state_transition( EnvironmentalStates.NORMAL ))
 	# --------
 	$Health.health_depleted.connect(func():
 		# !!!
@@ -67,12 +77,16 @@ func _ready() -> void:
 @export var static_cam: bool = true
 
 func cam_fn(delta: float):
-	if !static_cam:
-		_camera_pivot.rotation.x += _camera_input_direction.y * delta
-		_camera_pivot.rotation.x = clamp(_camera_pivot.rotation.x, phi_lower_limit, phi_upper_limit)
-		_camera_pivot.rotation.y += _camera_input_direction.x * delta
-		_camera_pivot.rotation.y = clamp(_camera_pivot.rotation.y, rho_lower_limit, rho_upper_limit)
-		_camera_input_direction = Vector2.ZERO
+	#if !static_cam:
+		#_camera_pivot.rotation.x += _camera_input_direction.y * delta
+		#_camera_pivot.rotation.x = clamp(_camera_pivot.rotation.x, phi_lower_limit, phi_upper_limit)
+		#_camera_pivot.rotation.y += _camera_input_direction.x * delta
+		#_camera_pivot.rotation.y = clamp(_camera_pivot.rotation.y, rho_lower_limit, rho_upper_limit)
+		#_camera_input_direction = Vector2.ZERO
+	
+	# -- Camera pitch to shoot slightly easier
+	_camera_pivot.rotation.x -= _camera_input_direction.y * delta
+	_camera_pivot.rotation.x = clamp(_camera_pivot.rotation.x, phi_lower_limit, phi_upper_limit)
 	_camera.look_at(global_position)
 
 
@@ -80,7 +94,7 @@ func _physics_process(delta: float) -> void:
 	cam_fn(delta)
 	var input_dir := Input.get_vector("left", "right", "up", "down")
 	#var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	var direction := move_dir_from_input()
+	var direction := move_dir_from_input() if $SpeedBoostTimer.is_stopped() else _camera.global_basis.z
 	movement(direction, delta)
 
 	if direction.length_squared() > 0.04:
@@ -100,6 +114,9 @@ func _input(event: InputEvent) -> void:
 		shoot_projectile()
 	if DEBUG and event.is_action_pressed("reset"):
 		global_position = initial_position
+	
+	if event is InputEventMouseMotion:
+		_camera_input_direction = event.screen_relative * mouse_sensitivity
 	#if event.is_action_pressed("pause"):
 		#if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -192,14 +209,20 @@ func move_dir_from_input() -> Vector3:
 	return move_direction.normalized()
 
 
+# -- TODO: can't make up my mind how I want this done
 func take_hit( attack: Attack):
 	if !DEBUG:
 		$Hitbox.take_hit( attack )
+
+func take_damage(damage: float):
+	if !DEBUG:
+		$Hitbox.take_damage( damage )
 
 
 enum EnvironmentalStates{
 	NORMAL,
 	OILY,
+	SPEEDY,
 }
 @onready var environmental_state = EnvironmentalStates.NORMAL
 func environemtnal_state_transition( new_environmental_state: EnvironmentalStates):
@@ -212,9 +235,13 @@ func enter_env_state( new_environmental_state: EnvironmentalStates):
 	match new_environmental_state:
 		EnvironmentalStates.NORMAL:
 			acceleration = base_acceleration
+			v_x = base_v_x
 		EnvironmentalStates.OILY:
 			acceleration = oil_acceleration
-
+		EnvironmentalStates.SPEEDY:
+			v_x = speedy_v_x
+			$SpeedBoostTimer.start()
+			#acceleration = oil_acceleration
 
 func exit_env_state( last_environmental_state: EnvironmentalStates):
 	match last_environmental_state:
@@ -222,10 +249,11 @@ func exit_env_state( last_environmental_state: EnvironmentalStates):
 			pass
 		EnvironmentalStates.OILY:
 			pass
-			#acceleration = base_acceleration
+		EnvironmentalStates.SPEEDY:
+			pass
 
 
-func acceleration_curve( _name: String, b: bool):
+func acceleration_curve( _name: String, b: bool=false):
 	# -- type, is entering or leaving
 	match _name:
 		"Oil":
@@ -233,6 +261,9 @@ func acceleration_curve( _name: String, b: bool):
 				environemtnal_state_transition( EnvironmentalStates.OILY)
 			else:
 				$OilTimer.start()
+		"Speed Boost":
+			environemtnal_state_transition( EnvironmentalStates.SPEEDY)
+
 
 func mouse_pos_3d() -> Vector3:
 	var a_little_bit_towards_player = 0.2 * (global_position.x - _camera.global_position.x)
@@ -243,9 +274,12 @@ func mouse_pos_3d() -> Vector3:
 									 _camera.project_ray_normal(mouse_pos))
 	return intersection_point
 
+
 # -- TODO: remove position and replace with gun model position
 func shoot_projectile():
-	if $ShootingCooldownTimer.is_stopped():
+	# TODO: hardcoding one weapon:
+	if $ShootingCooldownTimer.is_stopped() and energy > 0.:
+		use_energy()
 		$ShootingCooldownTimer.start()
 		var basic_projectile_instance = basic_projectile.instantiate()
 		# -- allow parent object to add it to a dedicated spot for clean up later
@@ -256,7 +290,42 @@ func shoot_projectile():
 		var _mouse_point_3d = mouse_pos_3d()
 		var cam_pos = _camera.global_position
 		var dir = _mouse_point_3d - cam_pos
-		print(dir)
+		var pos = $CollisionShape3D.global_position + 2. * dir
+		
 		basic_projectile_instance.dir = dir
-		get_tree().get_root().add_child(basic_projectile_instance)
-		basic_projectile_instance.global_position = $CollisionShape3D.global_position + 2. * dir
+		basic_projectile_instance.visible = false
+
+		# -- we want the muzzle flash to agree with the motion
+		$MuzzleFlash.global_position = pos
+		$MuzzleFlash/AnimationPlayer.play("flash")
+		$MuzzleFlash/AnimationPlayer.animation_finished.connect( func(anim_name):
+			emit_signal("projectile_shot", basic_projectile_instance, func():
+				if basic_projectile_instance: # -- it hit wall too fast?
+					basic_projectile_instance.visible = true
+					basic_projectile_instance.global_position = pos
+			)
+		)
+	
+	else:
+		# -- red flashing polish
+		emit_signal("energy_used", 0.)
+
+
+func pickup_health(amount: float):
+	$Health.heal(amount)
+
+@onready var ammo
+func get_ammo(amount: float) -> void:
+	ammo += amount
+
+
+func use_energy():
+	energy -= 1.0 / num_energy_shots
+	energy = clamp(energy, 0., 1.)
+	emit_signal("energy_used", energy)
+
+
+func refill_energy():
+	# -- TODO: hardcoding jsut to refill
+	energy = 1.0
+	emit_signal("energy_refilled", 1.0)

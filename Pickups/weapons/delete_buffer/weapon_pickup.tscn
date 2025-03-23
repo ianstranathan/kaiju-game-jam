@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://20l7pwq6ac66"]
 
-[ext_resource type="Script" uid="uid://jxgtd6gtyncg" path="res://Pickups/weapons/weapon_pickup.gd" id="1_b1658"]
+[ext_resource type="Script" uid="uid://jxgtd6gtyncg" path="res://Pickups/weapons/delete_buffer/weapon_pickup.gd" id="1_b1658"]
 [ext_resource type="Texture2D" uid="uid://df3y4f5dhcifx" path="res://Assets/Textures/weapon_icons/phaser_shot_bake.png" id="1_em85m"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tfqkw"]

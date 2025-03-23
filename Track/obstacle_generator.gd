@@ -7,6 +7,15 @@ signal track_grid_requested( fn: Callable)
 @export var test_obstacle_scene: PackedScene = preload("res://Track/Obstacles/test_obstacle.tscn")
 @export var debug_marker_scene: PackedScene = preload("res://Debug/debug_marker.tscn")
 @export var nuclear_sphere_obstacle: PackedScene = preload("res://Pickups/Collectibles/nuclear_collectible.tscn")
+@export var health_pickup_scene: PackedScene = preload("res://Pickups/health_pickup/health_pickup.tscn")
+@export var energy_pickup_scene: PackedScene = preload("res://Pickups/weapons/basic/basic_weapon_pickup/basic_weapon_pickup.tscn")
+@export var speed_boost_scene: PackedScene = preload("res://Environmentals/speed_boost/speed_boost.tscn")
+
+@onready var single_tile_objects_arr = [oil_scene, 
+										nuclear_sphere_obstacle,
+										health_pickup_scene,
+										energy_pickup_scene,
+										speed_boost_scene]
 @onready var noise: FastNoiseLite = FastNoiseLite.new()
 
 # TODO: scaling tracks offsets the ground
@@ -57,23 +66,62 @@ func make_a_box(pos: Vector3, k_loop_height_offset=0):
 	make_an_obstacle(box_instance, pos, box_instance.get_node("MeshInstance3D").mesh.size.y, k_loop_height_offset)
 
 
+func make_object_per_tile(_instance: Node3D,
+						  _pos_offset: Vector3,
+						  grid_index: Vector2):
+	#var _instance = _packed_scene.instantiate()
+	var pos = grid_pos_from_offset(_pos_offset, grid_index)
+	make_an_obstacle(_instance, pos, 0.)
+	#var marker = debug_marker_scene.instantiate()
+	#add_child(marker)
+	#marker.global_position = pos
+
+func get_rnd_indices_for_single_tile_objects() -> Array:
+	var ret = []
+	for i in range( single_tile_objects_arr.size()):
+		ret.append(
+			Vector2(rand.randi() % int(grid_size.x),
+					rand.randi() % int(grid_size.y))
+		)
+	return ret
+
 func generate_obstacles(pos_offset: Vector3, noise_offset=0.0):
-	# -- single big thing will test against a single random number on the grid
-	# -- e.g. a single oil spill
-	var rnd_big_x = rand.randi() % int(grid_size.x)
-	var rnd_big_y = rand.randi() % int(grid_size.y)
-	#print(rnd_big_x, ": ", rnd_big_x)
+	# -- need to make sure these don't overlap
+	# -- one of these per grid
+	
+	# -- we have to generate before grid loop
+	var single_item_indices = get_rnd_indices_for_single_tile_objects()
+	#var oil_rnd_x    = rand.randi() % int(grid_size.x)
+	#var oil_rnd_y    = rand.randi() % int(grid_size.y)
+	#var refill_rnd_x = rand.randi() % int(grid_size.x)
+	#var refill_rnd_y = rand.randi() % int(grid_size.y)
+	#var health_rnd_x = rand.randi() % int(grid_size.x)
+	#var health_rnd_y = rand.randi() % int(grid_size.y)
+	#var energy_rnd_x = rand.randi() % int(grid_size.x)
+	#var energy_rnd_y = rand.randi() % int(grid_size.y)
+	#var speed_rnd_x = rand.randi() % int(grid_size.x)
+	#var speed_rnd_y = rand.randi() % int(grid_size.y)
+	#var nuclear_waste_rnd_x = rand.randi() % int(grid_size.x)
+	#var nuclear_waste_y = rand.randi() % int(grid_size.y)
+	
 	for i in range(grid_size.x):
 		for j in range( grid_size.y):
-			# -- OIL SPILL
-			if i == rnd_big_x and j == rnd_big_y:
-				var oil = oil_scene.instantiate()
-				var pos = grid_pos_from_offset(pos_offset, Vector2(i, j))
-				make_an_obstacle(oil, pos, 0.)
+			# -- Single Items per Tile
+			for ii in range(single_item_indices.size()):
+				var index_vec = single_item_indices[ii]
+				if index_vec.x == i and index_vec.y == j:
+					var _object = single_tile_objects_arr[ii].instantiate()
+					make_object_per_tile(_object, pos_offset, Vector2(i, j))
+					continue
+			#if i == oil_rnd_x and j == oil_rnd_y:
+				# -- for each item to generate per tile
+				#var oil = oil_scene.instantiate()
+				#var instance = make_object_per_tile(oil, pos_offset, Vector2(i, j))
+				#var pos = grid_pos_from_offset(pos_offset, Vector2(i, j))
+				#make_an_obstacle(oil, pos, 0.)
 				#var marker = debug_marker_scene.instantiate()
 				#add_child(marker)
 				#marker.global_position = pos
-				continue
 			# --
 			var noise_sample = noise.get_noise_2d(i * 10. + noise_offset, j * 10. + noise_offset)
 			if noise_sample > rand.randf():
@@ -86,10 +134,10 @@ func generate_obstacles(pos_offset: Vector3, noise_offset=0.0):
 						make_a_box( height_pos, k )
 						#make_the_object( height_pos, k)
 			else:
-				if rand.randf() > 0.9:
+				if rand.randf() * rand.randf()  > 0.9:
 					var pos = grid_pos_from_offset(pos_offset, Vector2(i, j))
 					var nuclear_waste = nuclear_sphere_obstacle.instantiate()
-					make_an_obstacle(nuclear_waste, pos, 0.5)
+					make_an_obstacle(nuclear_waste, pos, 1.0)
 
 
 

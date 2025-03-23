@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ceoihsiyatjby"
-path.s3tc="res://.godot/imported/dinosaur_diffuse.jpg-1b6ed068c6a0ad614df6eab03b340560.s3tc.ctex"
+uid="uid://b8a26jo20dbo8"
+path.s3tc="res://.godot/imported/blue car_coloured squares.jpg-6ce07148286b19cf274355aafb4c2f39.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "0453745473727888930f839386c528c6"
+}
 
 [deps]
 
-source_file="res://Assets/Models/dinosaur_diffuse.jpg"
-dest_files=["res://.godot/imported/dinosaur_diffuse.jpg-1b6ed068c6a0ad614df6eab03b340560.s3tc.ctex"]
+source_file="res://Assets/Models/Street_Obstacle_Models/blue car_coloured squares.jpg"
+dest_files=["res://.godot/imported/blue car_coloured squares.jpg-6ce07148286b19cf274355aafb4c2f39.s3tc.ctex"]
 
 [params]
 

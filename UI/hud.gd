@@ -3,8 +3,13 @@ extends Control
 @onready var heart_tex_rect: PackedScene = preload("res://UI/heart_texture_rect.tscn")
 @export var num_hearts: int = 3
 
+signal game_timer_requested( fn: Callable )
 
 func _ready() -> void:
+	$MarginContainer4/PanelContainer.game_timer_requested.connect( func(fn: Callable):
+		emit_signal("game_timer_requested", fn))
+	out_of_energy_timer.timeout.connect( func():
+		$MarginContainer3/PanelContainer/TextureRect.material.set_shader_parameter("_out_of", 0.0))
 	make_hearts( num_hearts)
 
 
@@ -32,9 +37,14 @@ func remove_hearts(n: int):
 	if heart_tex_rects.size() > 0:
 		heart_tex_rects[-1].material.set_shader_parameter("is_leading_heart", 1.0)
 
-@onready var extraction_bar = $VBoxContainer/MarginContainer2/PanelContainer/TextureRect
-func update_timer( ratio: float):
-	extraction_bar.material.set_shader_parameter("amount", ratio)
-	
+
+@onready var out_of_energy_timer = $MarginContainer3/PanelContainer/TextureRect/OutOfTimer
+func update_energy( ratio: float):
+	if ratio <= 0.:
+		out_of_energy_timer.start()
+		$MarginContainer3/PanelContainer/TextureRect.material.set_shader_parameter("_out_of", 1.0)
+	$MarginContainer3/PanelContainer/TextureRect.material.set_shader_parameter("amount", ratio)
+
+
 func _process(delta: float) -> void:
 	$Reticle.position = get_viewport().get_mouse_position()

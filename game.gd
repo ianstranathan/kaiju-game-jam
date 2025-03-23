@@ -3,8 +3,7 @@ extends Node3D
 @export var fog_dist := 100.0
 @export var obstacle_noise_seed := 10.0
 func _ready() -> void:
-	# -- using player in splash screen, so w/e
-	$Player.start_game()
+
 	$Player.health_changed.connect( func( ratio: float):
 		$CanvasLayer/Hud.update_health( ratio ))
 		
@@ -28,6 +27,11 @@ func _ready() -> void:
 		$VFX_container.add_child(_fireball_instance)
 		# -- closure around instance -> position correctly
 		callback_fn.call())
+		
+	$Player.projectile_shot.connect( func(projectile_instance, callback_fn: Callable):
+		$VFX_container.add_child(projectile_instance)
+		callback_fn.call())
+
 	start_game()
 
 @onready var HUD = $CanvasLayer/Hud

@@ -1,26 +1,23 @@
 [gd_scene load_steps=6 format=3 uid="uid://2ru6ogt6b1cg"]
 
 [ext_resource type="PackedScene" uid="uid://r4ncqir4b5ji" path="res://Player/player.tscn" id="1_pmpck"]
-[ext_resource type="Script" uid="uid://7glabykuit1n" path="res://Camera/cam.gd" id="2_fmom0"]
 [ext_resource type="PackedScene" uid="uid://flejhil1malf" path="res://Environmentals/oil_spill.tscn" id="3_bcj8c"]
 [ext_resource type="PackedScene" uid="uid://brqxhcf8qu0hq" path="res://Debug/debug_marker.tscn" id="4_33k3h"]
 [ext_resource type="PackedScene" uid="uid://b84epxcx1pyxr" path="res://Track/Obstacles/test_obstacle.tscn" id="5_33k3h"]
 
+[sub_resource type="Environment" id="Environment_bcj8c"]
+glow_enabled = true
+
 [node name="Blah" type="Node3D"]
 
-[node name="Player" parent="." node_paths=PackedStringArray("_camera") instance=ExtResource("1_pmpck")]
+[node name="Player" parent="." instance=ExtResource("1_pmpck")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.76837e-07, 0)
-_camera = NodePath("../Camera3D")
+mouse_sensitivity = 0.2
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
 use_collision = true
 size = Vector3(500, 10, 500)
-
-[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47357, 5.38297)
-script = ExtResource("2_fmom0")
-target = NodePath("../Player")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.653936, 0.75655, 0, -0.75655, 0.653936, 0, 6.56457, 8.49259)
@@ -56,25 +53,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3153, 0, 22.3914)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8707, 0, 7.5613)
 
 [node name="TestObstacle" parent="." instance=ExtResource("5_33k3h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.497398, 11.1566)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.049202, 0.517803, 11.1344)
 DEBUG = true
 
 [node name="TestObstacle2" parent="." instance=ExtResource("5_33k3h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.03771, 0.497398, -7.60172)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.049202, 0.517803, 11.1344)
 DEBUG = true
 
 [node name="TestObstacle3" parent="." instance=ExtResource("5_33k3h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08591, 0.497398, -7.60172)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.14526, 1.50931, 11.1344)
 DEBUG = true
 
 [node name="TestObstacle4" parent="." instance=ExtResource("5_33k3h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.497398, -7.60172)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.09568, 0.517803, 11.1344)
 DEBUG = true
 
 [node name="TestObstacle5" parent="." instance=ExtResource("5_33k3h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.03771, 0.497398, 11.1566)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.09006, 1.48535, 11.1344)
 DEBUG = true
 
 [node name="TestObstacle6" parent="." instance=ExtResource("5_33k3h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08591, 0.497398, 11.1566)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.06294, 0.517803, 11.1344)
 DEBUG = true
+
+[node name="TestObstacle7" parent="." instance=ExtResource("5_33k3h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.049202, 1.59701, 11.1344)
+DEBUG = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bcj8c")

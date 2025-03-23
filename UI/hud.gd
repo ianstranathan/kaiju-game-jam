@@ -2,8 +2,11 @@ extends Control
 
 @onready var heart_tex_rect: PackedScene = preload("res://UI/heart_texture_rect.tscn")
 @export var num_hearts: int = 3
+
+
 func _ready() -> void:
 	make_hearts( num_hearts)
+
 
 func update_health( ratio: float):
 	var how_many_hearts_to_have = floor(num_hearts * ratio)
@@ -12,6 +15,7 @@ func update_health( ratio: float):
 		make_hearts( how_many_hearts_to_change)
 	else:
 		remove_hearts( -1 * how_many_hearts_to_change)
+
 
 func make_hearts( n: int):
 	for i in range(n):
@@ -31,3 +35,6 @@ func remove_hearts(n: int):
 @onready var extraction_bar = $VBoxContainer/MarginContainer2/PanelContainer/TextureRect
 func update_timer( ratio: float):
 	extraction_bar.material.set_shader_parameter("amount", ratio)
+	
+func _process(delta: float) -> void:
+	$Reticle.position = get_viewport().get_mouse_position()

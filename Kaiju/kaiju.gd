@@ -56,9 +56,9 @@ func _physics_process(delta: float) -> void:
 		var dist = rel_pos.length()
 		var dir  = rel_pos.normalized()
 		state_from_dist(dist)
-		if state != States.SWIPING:
-			# -- don't want to get a degenerate lookat matrix from being too close
-			look_at(-player_ref.global_position) # TODO
+		#if state != States.SWIPING:
+			## -- don't want to get a degenerate lookat matrix from being too close
+			#look_at(-player_ref.global_position) # TODO
 		
 		if state == States.CLOSING_IN or state == States.SEEKING:
 			velocity = velocity.move_toward(dir * speed, acceleration * delta)

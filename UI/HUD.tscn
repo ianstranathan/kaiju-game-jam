@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bj3p8mxktpdun"]
+[gd_scene load_steps=12 format=3 uid="uid://bj3p8mxktpdun"]
 
 [ext_resource type="Script" uid="uid://bx0lokf78fdos" path="res://UI/hud.gd" id="1_yixhe"]
 [ext_resource type="Shader" uid="uid://bnwhqph21n7n2" path="res://UI/bars.gdshader" id="2_4n7mi"]
+[ext_resource type="Shader" uid="uid://5tw5rd1tuo38" path="res://UI/reticle.gdshader" id="3_4n7mi"]
+[ext_resource type="Texture2D" uid="uid://cwermrpy2fvg4" path="res://icon.svg" id="4_uk570"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f2wx0"]
 shader = ExtResource("2_4n7mi")
@@ -26,6 +28,10 @@ shader_parameter/color = Color(0.239886, 0.46276, 1, 1)
 gradient = SubResource("Gradient_ijstf")
 width = 500
 height = 20
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uk570"]
+shader = ExtResource("3_4n7mi")
+shader_parameter/color = Color(2.3, 1.2, 0.3, 1)
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -81,3 +87,7 @@ grow_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+
+[node name="Reticle" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_uk570")
+texture = ExtResource("4_uk570")

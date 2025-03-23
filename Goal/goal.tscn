@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://b48dmvgnwv75y"]
+
+[ext_resource type="Shader" uid="uid://bfypk2b5efxv8" path="res://Goal/goal.gdshader" id="1_3nqkf"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3nqkf"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3iwka"]
+seamless = true
+noise = SubResource("FastNoiseLite_3nqkf")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y78nh"]
+render_priority = 0
+shader = ExtResource("1_3nqkf")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_3iwka")
+shader_parameter/albedo = Color(0.3, 0.8, 2.3, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_po8gq"]
+top_radius = 4.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3nqkf"]
+radius = 3.5
+
+[node name="Goal" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_y78nh")
+mesh = SubResource("CylinderMesh_po8gq")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.014765, 0.299391, -0.954016, 0, 0.95412, 0.299424, 0.999891, 0.004421, -0.0140876, -10.4737, 3.02871, -0.0579164)
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_3nqkf")

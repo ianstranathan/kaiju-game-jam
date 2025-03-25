@@ -30,7 +30,7 @@ func remove_hearts(n: int):
 	if heart_tex_rects.size() > 0:
 		heart_tex_rects[-1].material.set_shader_parameter("is_leading_heart", 1.0)
 
-@onready var game_timer = $DummyTimer
+@onready var game_timer = $MarginContainer/HBoxContainer/DummyTimer
 func time_string()-> String:
 	var t_msecs = game_timer.time_left * 1000.0
 	var msecs = fmod(t_msecs, 1000.0)

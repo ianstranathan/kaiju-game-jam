@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://dks3dqsps0s3m"]
+
+[ext_resource type="Script" uid="uid://bp1si661f6vkd" path="res://UI/dummy_timer.gd" id="1_342dd"]
+[ext_resource type="Script" uid="uid://bx0lokf78fdos" path="res://UI/hud.gd" id="1_jpgby"]
+
+[node name="Timer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jpgby")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -107.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="DummyTimer" type="Timer" parent="MarginContainer/HBoxContainer"]
+wait_time = 300.0
+one_shot = true
+autostart = true
+script = ExtResource("1_342dd")

@@ -36,5 +36,5 @@ func start_game():
 	extraction_timer.start()
 	$TrackGenerator.init_tiles()
 
-func _physics_process(delta: float) -> void:
-	HUD.update_timer(extraction_timer.time_left / extraction_timer.wait_time)
+#func _physics_process(delta: float) -> void:
+#	HUD.update_timer(extraction_timer.time_left / extraction_timer.wait_time)

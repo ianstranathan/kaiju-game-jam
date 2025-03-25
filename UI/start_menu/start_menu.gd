@@ -2,8 +2,8 @@ extends Control
 
 signal started
 
-@onready var start_btn = $Control/VBoxContainer/start
-@onready var quit_btn = $Control/VBoxContainer/quit
+@onready var start_btn = $VBoxContainer/start
+@onready var quit_btn = $VBoxContainer/quit
 
 
 func _ready() -> void:

@@ -3,7 +3,7 @@ extends Timer
 
 #@onready var time_since_engine_started: Callable = Time.get_ticks_msec
 #@onready var start_time = time_since_engine_started.call()
-@onready var time_label: Label = $MarginContainer/Label
+@onready var time_label: Label = $MarginContainer/HBoxContainer/Label
 var game_timer: Timer
 @onready var set_game_timer_fn = func(the_stage_game_timer: Timer): game_timer = the_stage_game_timer
 

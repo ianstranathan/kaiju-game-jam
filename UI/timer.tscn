@@ -32,3 +32,6 @@ wait_time = 300.0
 one_shot = true
 autostart = true
 script = ExtResource("1_342dd")
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2

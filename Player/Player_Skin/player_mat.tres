@@ -26,3 +26,5 @@ shader_parameter/rim_spread = 0.5
 shader_parameter/shadow_threshold = 0.7
 shader_parameter/shadow_softness = 0.1
 shader_parameter/texture_albedo = ExtResource("2_ggoaq")
+shader_parameter/hit_color = Color(2, 0, 0, 1)
+shader_parameter/hit_interpolant = 0.0

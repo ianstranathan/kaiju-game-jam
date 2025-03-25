@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://6havhbvhp2ju"]
+
+[ext_resource type="Script" uid="uid://dy2xrey3iq6rh" path="res://Track/Obstacles/an_obstacle.gd" id="1_lht2y"]
+[ext_resource type="PackedScene" uid="uid://swmiaaw1wxcs" path="res://Assets/Models/Street_Obstacle_Models/trailer.glb" id="2_lht2y"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lht2y"]
+size = Vector3(3, 2, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_68ddw"]
+size = Vector3(7, 0.25, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8s8re"]
+size = Vector3(0.36, 1.875, 3)
+
+[node name="Trailer" type="Node3D"]
+script = ExtResource("1_lht2y")
+grid_width = 10
+grid_length = 3
+
+[node name="trailer2" parent="." instance=ExtResource("2_lht2y")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 15)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.21921, 1, 0)
+shape = SubResource("BoxShape3D_lht2y")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.76916, 1.81792, 0)
+shape = SubResource("BoxShape3D_68ddw")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.98801, 0.96225, 0)
+shape = SubResource("BoxShape3D_8s8re")

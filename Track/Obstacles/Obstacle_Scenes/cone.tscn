@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ba3oqof3j5x10"]
+
+[ext_resource type="Script" uid="uid://dy2xrey3iq6rh" path="res://Track/Obstacles/an_obstacle.gd" id="1_mye08"]
+[ext_resource type="PackedScene" uid="uid://w4iynh4jbwau" path="res://Assets/Models/Street_Obstacle_Models/cone.glb" id="2_tj80o"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jmshx"]
+size = Vector3(0.7, 1, 0.7)
+
+[node name="Cone" type="Node3D"]
+script = ExtResource("1_mye08")
+grid_width = 1
+grid_length = 1
+
+[node name="cone2" parent="." instance=ExtResource("2_tj80o")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 2.128, 0, -6.226)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_jmshx")

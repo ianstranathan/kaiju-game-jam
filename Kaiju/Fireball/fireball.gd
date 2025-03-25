@@ -16,7 +16,7 @@ func _ready() -> void:
 	$Timer.timeout.connect( func(): queue_free())
 	$Timer.start()
 
-	$Area3D.body_entered.connect( func(body):
+	$Area3D.body_entered.connect( func(_body):
 		explode())
 
 func explode():

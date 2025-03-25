@@ -7,6 +7,7 @@ signal started
 
 
 func _ready() -> void:
+	visible = true
 	start_btn.button_down.connect( func():
 		emit_signal("started"))
 	quit_btn.button_down.connect( func():

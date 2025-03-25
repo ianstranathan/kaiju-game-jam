@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4xs41ic2wk2p"]
+
+[ext_resource type="Script" uid="uid://dy2xrey3iq6rh" path="res://Track/Obstacles/an_obstacle.gd" id="1_pgpdv"]
+[ext_resource type="PackedScene" uid="uid://b8111v142xrlu" path="res://Assets/Models/Street_Obstacle_Models/blue car.glb" id="1_sllyq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sllyq"]
+size = Vector3(3.5, 1, 1)
+
+[node name="Blue_car" type="Node3D"]
+script = ExtResource("1_pgpdv")
+grid_width = 3
+grid_length = 1
+
+[node name="blue car" parent="." instance=ExtResource("1_sllyq")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="blue car"]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="blue car/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_sllyq")

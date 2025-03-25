@@ -3,6 +3,7 @@ extends CharacterBody3D
 class_name Kaiju
 
 signal fireball_shot( _fireball_instance, callback_fn: Callable)
+signal health_changed( ratio)
 
 @export var _skin: Node3D
 @onready var skin_animation_player = _skin.get_node("AnimationPlayer")
@@ -39,6 +40,15 @@ var state: States
 # ------------------------------------------------------------------------------
 
 func _ready() -> void:
+	
+	$Health.health_depleted.connect( func():
+		# -- play death here
+		Events.emit_signal("round_completed", true))
+	$Health.health_changed.connect( func(ratio):
+		# -- play death here
+		emit_signal("health_changed", ratio))
+	# ----------------------
+	
 	$StartDelayTimer.start()
 	state = States.IDLE
 	$FireballPauseTimer.timeout.connect( func(): shoot_fireball())
@@ -64,8 +74,12 @@ func _physics_process(delta: float) -> void:
 			velocity = velocity.move_toward(dir * speed, acceleration * delta)
 			velocity.y += _gravity * delta
 				# -- maybe do something if the collider is in group building?
-			var coll = move_and_slide()
-
+			var _coll = move_and_slide()
+	
+	if !$FireballPauseTimer.is_stopped():
+		if ($ShootingCueSprite.visible == false and
+		   ($FireballPauseTimer.wait_time / $FireballPauseTimer.wait_time) < 0.5):
+			$ShootingCueSprite.visible = true
 
 # ------------------------------------------------------------------------------
 func state_transtion(_state):
@@ -136,3 +150,11 @@ func shoot_fireball():
 		emit_signal("fireball_shot", fireball_instance, func(): 
 			fireball_instance.target_pos = player_ref.global_position
 			fireball_instance.global_position = fire_ball_pos)
+
+@onready var anim_material: Material = $"kaiju anims/Armature/Skeleton3D/Cube".material_override
+func take_hit( dmg: float):
+	var tween = create_tween().set_ease(Tween.EASE_IN_OUT)
+	Utils.material_shader_float_tween(tween, anim_material, "hit_interpolant", 0.5, 0., 0.8)
+	tween.tween_callback( func():
+		anim_material.set_shader_parameter("hit_interpolant", 0.))
+	$Health.take_attack_damage(dmg)

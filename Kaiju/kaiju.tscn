@@ -8,9 +8,9 @@
 [ext_resource type="Script" uid="uid://cdvoulmb50i3n" path="res://Components/hitbox.gd" id="6_tp5tf"]
 [ext_resource type="Script" uid="uid://grpwcbu4xdin" path="res://Components/health.gd" id="7_ufvcs"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_08cdx"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tp5tf"]
 radius = 3.0
-height = 15.0
+height = 20.0
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_tvs07"]
 
@@ -31,8 +31,8 @@ script = ExtResource("1_1j1w1")
 _skin = NodePath("kaiju anims")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 0)
-shape = SubResource("CapsuleShape3D_08cdx")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+shape = SubResource("CapsuleShape3D_tp5tf")
 
 [node name="FireballEmitter" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 11.5, 0)
@@ -41,8 +41,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 11.5, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.730793, 15.439, 9.07403)
 material_override = SubResource("ShaderMaterial_eg38s")
 texture = ExtResource("4_tvs07")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="kaiju anims" parent="." instance=ExtResource("5_tvs07")]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
@@ -54,10 +52,11 @@ metadata/_custom_type_script = "uid://cdvoulmb50i3n"
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("7_ufvcs")
+starting_health = 1000.0
 metadata/_custom_type_script = "uid://grpwcbu4xdin"
 
 [node name="FireballPauseTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 2.5
 
 [node name="StartDelayTimer" type="Timer" parent="."]
 wait_time = 3.0

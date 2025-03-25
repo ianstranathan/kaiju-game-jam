@@ -14,7 +14,10 @@ func _ready() -> void:
 	assert(dir)
 	look_at(dir * 1000.) # -- orient z axis to target
 	distance_travelled = 0.0
-
+	$Area3D.body_entered.connect(func(body):
+		if body is Kaiju:
+			body.take_hit( damage )
+			queue_free())
 
 func _physics_process(delta: float) -> void:
 	global_position += dir * speed * delta

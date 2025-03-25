@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://b48dmvgnwv75y"]
+[gd_scene load_steps=8 format=3 uid="uid://b48dmvgnwv75y"]
 
-[ext_resource type="Shader" uid="uid://bfypk2b5efxv8" path="res://Goal/goal.gdshader" id="1_3nqkf"]
+[ext_resource type="Shader" uid="uid://bfypk2b5efxv8" path="res://Finish_Portal/finish_portal.gdshader" id="1_3nqkf"]
+[ext_resource type="Script" uid="uid://cuc474qy0afr5" path="res://Finish_Portal/finish_portal.gd" id="1_qve22"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_3nqkf"]
 
@@ -20,17 +21,16 @@ top_radius = 4.0
 [sub_resource type="SphereShape3D" id="SphereShape3D_3nqkf"]
 radius = 3.5
 
-[node name="Goal" type="Node3D"]
+[node name="FinishPortal" type="Node3D"]
+script = ExtResource("1_qve22")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16267, 0)
 material_override = SubResource("ShaderMaterial_y78nh")
 mesh = SubResource("CylinderMesh_po8gq")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.014765, 0.299391, -0.954016, 0, 0.95412, 0.299424, 0.999891, 0.004421, -0.0140876, -10.4737, 3.02871, -0.0579164)
-
 [node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.16267, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("SphereShape3D_3nqkf")

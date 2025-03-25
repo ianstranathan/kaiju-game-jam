@@ -42,7 +42,7 @@ func _ready() -> void:
 	#for child in get_children():
 		#print(child.global_position)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# -- closest tile is the last one in array
 		if abs(player_reference.global_position.x - terrain_belt[-1].global_position.x) <= 2.0 * tile_len:
 			increment_belt()

@@ -37,7 +37,7 @@ func _ready() -> void:
 			body.acceleration_curve( "Oil", false))
 
 # TODO
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if player_ref:
 		if (player_ref.global_position - global_position).length_squared() > cut_off_dist_sqr:
 			queue_free()

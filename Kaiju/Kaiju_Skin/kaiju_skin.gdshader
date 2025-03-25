@@ -38,12 +38,15 @@ uniform float shadow_softness : hint_range(0.0, 1.0, 0.001) = 0.1;
 // https://www.youtube.com/watch?v=laastFVkTaA
 
 uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform vec4 hit_color: source_color;
+uniform float hit_interpolant:hint_range(0.0, 1.0, 0.1);
 
 void fragment(){
 	vec2 base_uv = UV;
 	vec4 albedo_tex = texture(texture_albedo, base_uv);
-	ALBEDO = albedo_tex.rgb;
+	ALBEDO = mix(albedo_tex.rgb, hit_color.xyz, hit_interpolant);
 }
+
 
 void light()
 {

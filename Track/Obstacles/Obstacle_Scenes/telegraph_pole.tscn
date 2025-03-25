@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://fqqdut22rrl"]
+
+[ext_resource type="PackedScene" uid="uid://b5l70ekkk0w0b" path="res://Assets/Models/Street_Obstacle_Models/telegraph pole.glb" id="1_ky805"]
+[ext_resource type="Script" uid="uid://dy2xrey3iq6rh" path="res://Track/Obstacles/an_obstacle.gd" id="1_q4wv8"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ky805"]
+height = 10.0
+radius = 0.197754
+
+[node name="Pole" type="Node3D"]
+script = ExtResource("1_q4wv8")
+grid_width = 1
+grid_length = 1
+
+[node name="telegraph pole2" parent="." instance=ExtResource("1_ky805")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 7.982, 0, -6.098)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+shape = SubResource("CylinderShape3D_ky805")

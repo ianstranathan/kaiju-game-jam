@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://csekdo0gf7hvp"]
+
+[ext_resource type="PackedScene" uid="uid://bdlit4x37p86p" path="res://Assets/Models/Street_Obstacle_Models/fire hydrant.glb" id="1_0psay"]
+[ext_resource type="Script" uid="uid://dy2xrey3iq6rh" path="res://Track/Obstacles/an_obstacle.gd" id="1_nfgi6"]
+[ext_resource type="PackedScene" uid="uid://b84epxcx1pyxr" path="res://Track/Obstacles/test_obstacle.tscn" id="2_g3tq2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0psay"]
+size = Vector3(0.655, 1, 0.65)
+
+[node name="Hydrant" type="Node3D"]
+script = ExtResource("1_nfgi6")
+grid_width = 1
+grid_length = 1
+
+[node name="fire hydrant" parent="." instance=ExtResource("1_0psay")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 6.803, -0.082, -0.005)
+
+[node name="TestObstacle" parent="." instance=ExtResource("2_g3tq2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_0psay")

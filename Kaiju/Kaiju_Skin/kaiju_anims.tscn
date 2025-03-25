@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b8o5aleisdcmn"]
+[gd_scene load_steps=5 format=3 uid="uid://b8o5aleisdcmn"]
 
 [ext_resource type="PackedScene" uid="uid://b04i32ykwaqbe" path="res://Kaiju/Kaiju_Skin/kaiju anims.glb" id="1_l6wr2"]
 [ext_resource type="Shader" uid="uid://7dy3m5lltcfr" path="res://Kaiju/Kaiju_Skin/kaiju_skin.gdshader" id="2_5n2ov"]
-[ext_resource type="Script" uid="uid://dqcr2cfwbrvqo" path="res://Kaiju/Kaiju_Skin/kaiju_anims.gd" id="2_u7wcd"]
 [ext_resource type="Texture2D" uid="uid://dw83syul7pmtg" path="res://Kaiju/Kaiju_Skin/kaiju anims_kaiju texture.png" id="3_prlvp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5n2ov"]
@@ -28,9 +27,10 @@ shader_parameter/rim_spread = 0.5
 shader_parameter/shadow_threshold = 0.7
 shader_parameter/shadow_softness = 0.1
 shader_parameter/texture_albedo = ExtResource("3_prlvp")
+shader_parameter/hit_color = Color(2, 0, 0, 1)
+shader_parameter/hit_interpolant = 0.0
 
 [node name="kaiju anims" instance=ExtResource("1_l6wr2")]
-script = ExtResource("2_u7wcd")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
 bones/0/rotation = Quaternion(-0.572527, -0.0256045, 0.0318818, 0.818866)

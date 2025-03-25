@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://6e7b3v3gh406"]
+
+[ext_resource type="PackedScene" uid="uid://bo814ca57s1v6" path="res://Assets/Models/Street_Obstacle_Models/bench.glb" id="1_8twpp"]
+[ext_resource type="Script" uid="uid://dy2xrey3iq6rh" path="res://Track/Obstacles/an_obstacle.gd" id="1_c8k8j"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8twpp"]
+size = Vector3(2, 0.8, 0.5)
+
+[node name="Bench" type="Node3D"]
+script = ExtResource("1_c8k8j")
+grid_width = 2
+grid_length = 1
+
+[node name="bench2" parent="." instance=ExtResource("1_8twpp")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.45468, 0, 4.11733)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("BoxShape3D_8twpp")

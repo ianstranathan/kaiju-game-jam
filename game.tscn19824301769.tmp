@@ -46,7 +46,7 @@ transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 
 [node name="Hud" parent="CanvasLayer" instance=ExtResource("8_j5wjh")]
 
 [node name="ExtractionTimer" type="Timer" parent="."]
-wait_time = 300.0
+wait_time = 10.0
 one_shot = true
 
 [node name="VFX_container" type="Node3D" parent="."]

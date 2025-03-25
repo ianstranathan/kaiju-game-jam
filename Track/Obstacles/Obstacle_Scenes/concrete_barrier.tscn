@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dr8faxhibfg2e"]
+
+[ext_resource type="Script" uid="uid://dy2xrey3iq6rh" path="res://Track/Obstacles/an_obstacle.gd" id="1_egp8k"]
+[ext_resource type="PackedScene" uid="uid://dq1f125j4r683" path="res://Assets/Models/Street_Obstacle_Models/concrete barrier.glb" id="1_kuyx7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ovwok"]
+size = Vector3(2, 1, 0.5)
+
+[node name="ConcreteBarrier" type="Node3D"]
+script = ExtResource("1_egp8k")
+grid_width = 2
+grid_length = 1
+
+[node name="concrete barrier" parent="." instance=ExtResource("1_kuyx7")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 4, 0, -3.5)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0676196)
+shape = SubResource("BoxShape3D_ovwok")

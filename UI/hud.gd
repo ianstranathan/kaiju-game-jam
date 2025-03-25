@@ -21,7 +21,6 @@ func update_health( ratio: float):
 	else:
 		remove_hearts( -1 * how_many_hearts_to_change)
 
-
 func make_hearts( n: int):
 	for i in range(n):
 		var heart = heart_tex_rect.instantiate()
@@ -44,6 +43,9 @@ func update_energy( ratio: float):
 		out_of_energy_timer.start()
 		$MarginContainer3/PanelContainer/TextureRect.material.set_shader_parameter("_out_of", 1.0)
 	$MarginContainer3/PanelContainer/TextureRect.material.set_shader_parameter("amount", ratio)
+
+func update_kaiju_health( ratio: float):
+	$MarginContainer2/PanelContainer/TextureRect.material.set_shader_parameter("amount", ratio)
 
 
 func _process(delta: float) -> void:

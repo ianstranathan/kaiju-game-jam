@@ -42,6 +42,13 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_2n0y6")
 text = "Resume
 "
 
+[node name="restart" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_2n0y6")
+text = "Restart
+"
+
 [node name="quit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0

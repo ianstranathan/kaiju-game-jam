@@ -2,9 +2,10 @@ shader_type spatial;
 
 render_mode unshaded;
 //varying float _dot;
-//void vertex() {
-	//_dot = dot(VERTEX, vec3(0., -1.,0.));
-//}
+void vertex() {
+	VERTEX.y *= (1. + 0.2 * (sin(2. * TIME) + 1.));
+	//VERTEX.z *= (1. + 0.2 * (cos(2. * TIME) + 1.));
+}
 
 uniform sampler2D noise_tex: repeat_enable;
 uniform vec4 albedo: source_color;

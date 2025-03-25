@@ -8,7 +8,8 @@ signal health_changed( ratio: float)
 signal projectile_shot( _projectile_instance, fn )
 signal energy_used( ratio)
 signal energy_refilled(ratio)
-	
+signal died
+
 @export_group("Camera")
 @export_range(0.0, 1.0) var mouse_sensitivity := 0.25
 @export var rho_upper_limit := PI / 3.0
@@ -65,8 +66,7 @@ func _ready() -> void:
 		environemtnal_state_transition( EnvironmentalStates.NORMAL ))
 	# --------
 	$Health.health_depleted.connect(func():
-		# !!!
-		get_tree().quit()
+		emit_signal("died")
 	)
 	$Health.health_changed.connect( func(ratio: float): 
 		emit_signal("health_changed", ratio))
@@ -92,8 +92,6 @@ func cam_fn(delta: float):
 
 func _physics_process(delta: float) -> void:
 	cam_fn(delta)
-	var input_dir := Input.get_vector("left", "right", "up", "down")
-	#var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	var direction := move_dir_from_input() if $SpeedBoostTimer.is_stopped() else _camera.global_basis.z
 	movement(direction, delta)
 
@@ -107,6 +105,15 @@ func _physics_process(delta: float) -> void:
 
 	var target_angle := Vector3.BACK.signed_angle_to(_last_movement_direction, Vector3.UP)
 	_skin.global_rotation.y = lerp_angle(_skin.global_rotation.y, target_angle, rotation_speed * delta)
+
+
+func move_dir_from_input() -> Vector3:
+	var raw_input := Input.get_vector("left", "right", "up", "down")
+	var forward := _camera.global_basis.z
+	var right := _camera.global_basis.x
+	var move_direction := forward * raw_input.y + right * raw_input.x
+	move_direction.y = 0.0
+	return move_direction.normalized()
 
 
 func _input(event: InputEvent) -> void:
@@ -198,27 +205,27 @@ func movement(dir: Vector3, delta: float) -> void:
 		var _collision = get_last_slide_collision()
 		if _collision.get_collider().is_in_group("Obstacles") and tmp_vel_check_from_input.length_squared() > 1.0:
 			acceleration = base_acceleration
-	
-
-func move_dir_from_input() -> Vector3:
-	var raw_input := Input.get_vector("left", "right", "up", "down")
-	var forward := _camera.global_basis.z
-	var right := _camera.global_basis.x
-	var move_direction := forward * raw_input.y + right * raw_input.x
-	move_direction.y = 0.0
-	return move_direction.normalized()
 
 
 # -- TODO: can't make up my mind how I want this done
 func take_hit( attack: Attack):
+	damage_visual_cue()
 	if !DEBUG:
 		$Hitbox.take_hit( attack )
 
 func take_damage(damage: float):
+	damage_visual_cue()
 	if !DEBUG:
 		$Hitbox.take_damage( damage )
 
 
+@onready var anim_material: Material = $"player animations/Armature/Skeleton3D/player_Cube".material_override
+func damage_visual_cue() -> void:
+	var tween = create_tween().set_ease(Tween.EASE_IN_OUT)
+	Utils.material_shader_float_tween(tween, anim_material, "hit_interpolant", 0.5, 0., 0.6)
+	tween.tween_callback( func():
+		anim_material.set_shader_parameter("hit_interpolant", 0.))
+	
 enum EnvironmentalStates{
 	NORMAL,
 	OILY,
@@ -235,11 +242,13 @@ func enter_env_state( new_environmental_state: EnvironmentalStates):
 	match new_environmental_state:
 		EnvironmentalStates.NORMAL:
 			acceleration = base_acceleration
+			skin_animation_player.speed_scale = 1.0
 			v_x = base_v_x
 		EnvironmentalStates.OILY:
 			acceleration = oil_acceleration
 		EnvironmentalStates.SPEEDY:
 			v_x = speedy_v_x
+			skin_animation_player.speed_scale = 3.0
 			$SpeedBoostTimer.start()
 			#acceleration = oil_acceleration
 
@@ -298,7 +307,7 @@ func shoot_projectile():
 		# -- we want the muzzle flash to agree with the motion
 		$MuzzleFlash.global_position = pos
 		$MuzzleFlash/AnimationPlayer.play("flash")
-		$MuzzleFlash/AnimationPlayer.animation_finished.connect( func(anim_name):
+		$MuzzleFlash/AnimationPlayer.animation_finished.connect( func(_anim_name):
 			emit_signal("projectile_shot", basic_projectile_instance, func():
 				if basic_projectile_instance: # -- it hit wall too fast?
 					basic_projectile_instance.visible = true
@@ -314,6 +323,7 @@ func shoot_projectile():
 func pickup_health(amount: float):
 	$Health.heal(amount)
 
+
 @onready var ammo
 func get_ammo(amount: float) -> void:
 	ammo += amount
@@ -326,6 +336,6 @@ func use_energy():
 
 
 func refill_energy():
-	# -- TODO: hardcoding jsut to refill
+	# -- TODO: hardcoding just to refill
 	energy = 1.0
 	emit_signal("energy_refilled", 1.0)

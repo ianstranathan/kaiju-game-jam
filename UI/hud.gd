@@ -17,9 +17,7 @@ func make_hearts( n: int):
 	for i in range(n):
 		var heart = heart_tex_rect.instantiate()
 		$MarginContainer/HBoxContainer.add_child(heart)
-		if i == n - 1: # -- is the last heart / leading heart
-			$MarginContainer/HBoxContainer.get_children()[-1].material.set_shader_parameter("is_leading_heart", 1.0)
-
+	
 
 func remove_hearts(n: int):
 	var heart_tex_rects = $MarginContainer/HBoxContainer.get_children()

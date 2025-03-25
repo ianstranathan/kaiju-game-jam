@@ -37,3 +37,8 @@ grow_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+
+[node name="DummyTimer" type="Timer" parent="."]
+wait_time = 300.0
+one_shot = true
+autostart = true

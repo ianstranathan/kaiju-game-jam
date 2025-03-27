@@ -28,6 +28,8 @@ background_color = Color(0.580392, 0.52549, 0.301961, 1)
 sky = SubResource("Sky_hve3p")
 sky_custom_fov = 65.3
 sky_rotation = Vector3(0.141372, -1.67552, 0)
+ambient_light_source = 3
+ambient_light_color = Color(0.245581, 0.134359, 0.0566037, 1)
 glow_enabled = true
 
 [node name="Game" type="Node3D"]

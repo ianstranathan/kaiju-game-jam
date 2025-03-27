@@ -42,4 +42,3 @@ layout_mode = 2
 
 [node name="Timer" parent="." instance=ExtResource("2_ijstf")]
 layout_mode = 1
-theme = null

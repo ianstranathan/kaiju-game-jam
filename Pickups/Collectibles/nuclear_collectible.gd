@@ -9,4 +9,5 @@ func _ready() -> void:
 
 func pickup_fn(body: Player):
 	body.take_damage(damage_amount)
+	Events.emit_signal("shake_camera", 1)
 	queue_free()

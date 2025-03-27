@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://637svol33h2t"]
 
 [ext_resource type="Shader" uid="uid://uu7bn5es0oef" path="res://Pickups/weapons/basic/basic.gdshader" id="1_cgbbw"]
-[ext_resource type="Script" uid="uid://d20uffmmepxop" path="res://Pickups/weapons/projectile.gd" id="1_nrcvi"]
+[ext_resource type="Script" path="res://Pickups/weapons/projectile.gd" id="1_nrcvi"]
 [ext_resource type="Texture2D" uid="uid://m72vwvy7f8m" path="res://Assets/Particles/Kenny_Particle_Pack/circle_05.png" id="3_x4v6s"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_x4v6s"]

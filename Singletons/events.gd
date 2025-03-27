@@ -1,9 +1,9 @@
 extends Node
 
-#enum ShakeType {
-	#Random,
-	#NOISE,
-	#Sway
-#}
+enum ShakeType {
+	SMALL,
+	MEDIUM,
+	BIG
+}
 signal round_completed( won: bool )
-signal shake_camera( enum_type: int)
+signal shake_camera(shake_amount: ShakeType)

@@ -50,7 +50,10 @@ var _last_movement_direction := Vector3.BACK
 # --------------------------------------------------
 @onready var initial_position:= global_position
 
+# -- Keith's animations are discontinuous => using anim player one for run, jump
+# -- and the second set of animations for slide and death
 @onready var skin_animation_player: AnimationPlayer = $"player animations/AnimationPlayer"
+@onready var skin_animation_player_two: AnimationPlayer = $"player animations/AnimationPlayer2"
 # --------------------------------------------------
 
 @export var basic_projectile: PackedScene = preload("res://Pickups/weapons/basic/basic.tscn")
@@ -58,7 +61,11 @@ var _last_movement_direction := Vector3.BACK
 func _ready() -> void:
 	assert(_camera)
 	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	
+	skin_animation_player_two.animation_finished.connect( func(_anim_name):
+		if _anim_name == "Slide":
+			state_transtion(States.RUNNING)
+		elif _anim_name == "slow death" or _anim_name == "Forward detah":
+			emit_signal("died"))
 	_camera.current = true
 	$OilTimer.timeout.connect(func():
 		environemtnal_state_transition( EnvironmentalStates.NORMAL ))
@@ -66,7 +73,8 @@ func _ready() -> void:
 		environemtnal_state_transition( EnvironmentalStates.NORMAL ))
 	# --------
 	$Health.health_depleted.connect(func():
-		emit_signal("died")
+		#emit_signal("died")
+		state_transtion(States.DYING)
 	)
 	$Health.health_changed.connect( func(ratio: float): 
 		emit_signal("health_changed", ratio))
@@ -92,19 +100,30 @@ func cam_fn(delta: float):
 
 func _physics_process(delta: float) -> void:
 	cam_fn(delta)
-	var direction := move_dir_from_input() if $SpeedBoostTimer.is_stopped() else _camera.global_basis.z
-	movement(direction, delta)
-
-	if direction.length_squared() > 0.04:
-		if is_on_floor():
-			state_transtion(States.RUNNING)
-		_last_movement_direction = direction
+	# -- if sliding, the position should just be the mesh
+	# -- if hitting speed boost, it should just go forward (actually the orientation of the speed boost)
+	# -- but no time
+	
+	#movement(direction, delta)
+	
+	var last_pos = global_position
+	if state == States.SLIDING:
+		global_position = _skin.global_position
+		move_and_slide()
 	else:
-		if is_on_floor():
-			state_transtion(States.IDLE)
+		var direction := move_dir_from_input() if $SpeedBoostTimer.is_stopped() else _camera.global_basis.z
+		movement(direction, delta)
 
-	var target_angle := Vector3.BACK.signed_angle_to(_last_movement_direction, Vector3.UP)
-	_skin.global_rotation.y = lerp_angle(_skin.global_rotation.y, target_angle, rotation_speed * delta)
+		if direction.length_squared() > 0.04:
+			if is_on_floor():
+				state_transtion(States.RUNNING)
+			_last_movement_direction = direction
+		else:
+			if is_on_floor():
+				state_transtion(States.IDLE)
+
+		var target_angle := Vector3.BACK.signed_angle_to(_last_movement_direction, Vector3.UP)
+		_skin.global_rotation.y = lerp_angle(_skin.global_rotation.y, target_angle, rotation_speed * delta)
 
 
 func move_dir_from_input() -> Vector3:
@@ -119,6 +138,8 @@ func move_dir_from_input() -> Vector3:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
 		shoot_projectile()
+	#elif event.is_action_pressed("slide"):
+		#state_transtion(States.SLIDING)
 	if DEBUG and event.is_action_pressed("reset"):
 		global_position = initial_position
 	
@@ -149,8 +170,11 @@ func _input(event: InputEvent) -> void:
 enum States{
 	IDLE,
 	RUNNING,
-	JUMPING
+	JUMPING,
+	SLIDING,
+	DYING,
 }
+
 @onready var state = States.IDLE
 
 func state_transtion(_state):
@@ -167,8 +191,16 @@ func state_entered(_state: States):
 			skin_animation_player.play("running")
 		States.JUMPING:
 			skin_animation_player.play("jump")
+		States.SLIDING:
+			$CollisionShape3D.shape.height = orig_height / 4.0
+			skin_animation_player_two.play("Slide")
+		States.DYING:
+			if randf() > 0.5:
+				skin_animation_player_two.play("Forward detah")
+			else:
+				skin_animation_player_two.play("slow death")
 
-
+@onready var orig_height = $CollisionShape3D.shape.height
 func state_exited(_state: States):
 	match _state:
 		States.IDLE:
@@ -177,6 +209,8 @@ func state_exited(_state: States):
 			pass
 		States.JUMPING:
 			pass
+		States.SLIDING:
+			$CollisionShape3D.shape.height = orig_height
 
 
 func progressive_accl_increase(delta: float):
@@ -309,6 +343,8 @@ func shoot_projectile():
 		$MuzzleFlash/AnimationPlayer.play("flash")
 		$MuzzleFlash/AnimationPlayer.animation_finished.connect( func(_anim_name):
 			emit_signal("projectile_shot", basic_projectile_instance, func():
+				$CameraPivotPoint/SpringArm3D/Camera3D.reset_offset()
+				Events.emit_signal("shake_camera", 1)
 				if basic_projectile_instance: # -- it hit wall too fast?
 					basic_projectile_instance.visible = true
 					basic_projectile_instance.global_position = pos

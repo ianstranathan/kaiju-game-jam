@@ -2,7 +2,7 @@ extends Node3D
 
 
 func _ready() -> void:
-	Events.emit_signal("shake_camera",  1 )
+	Events.emit_signal("shake_camera",  3 )
 	$AnimationPlayer.play("explode")
 	$smoke.finished.connect( func(): queue_free() )
 

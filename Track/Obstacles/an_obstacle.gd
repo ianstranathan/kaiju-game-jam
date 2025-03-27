@@ -9,8 +9,10 @@ var cut_off_dist_sqr: float
 @export var DEBUG: bool = false
 
 func _ready() -> void:
-	rotation.y += 90.0
-	print(name)
+	randomize()
+	if name != "Trailer":
+		
+		global_rotation.y += PI/2. + (PI / 12 * randf())
 	if askew:
 		global_rotation.x += Utils.rand_gen.randf() * PI / 8
 	#assert(player_ref)

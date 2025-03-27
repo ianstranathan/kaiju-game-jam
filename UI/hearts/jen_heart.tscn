@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bf38gf31v024k"]
+
+[ext_resource type="Texture2D" uid="uid://cfjybfkrq4nb6" path="res://UI/hearts/health_heart.png" id="1_litqt"]
+[ext_resource type="Shader" uid="uid://c53vljm381xre" path="res://UI/hearts/jen_heart.gdshader" id="1_xim3o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_16tyl"]
+resource_local_to_scene = true
+shader = ExtResource("1_xim3o")
+shader_parameter/is_leading_heart = 0.0
+
+[node name="JenHeart" type="TextureRect"]
+material = SubResource("ShaderMaterial_16tyl")
+texture = ExtResource("1_litqt")

@@ -1,40 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://bj3p8mxktpdun"]
+[gd_scene load_steps=7 format=3 uid="uid://bj3p8mxktpdun"]
 
 [ext_resource type="Script" uid="uid://bx0lokf78fdos" path="res://UI/hud.gd" id="1_yixhe"]
-[ext_resource type="Shader" uid="uid://bnwhqph21n7n2" path="res://UI/bars.gdshader" id="2_4n7mi"]
 [ext_resource type="Shader" uid="uid://5tw5rd1tuo38" path="res://UI/reticle.gdshader" id="3_4n7mi"]
 [ext_resource type="Texture2D" uid="uid://cwermrpy2fvg4" path="res://icon.svg" id="4_uk570"]
-[ext_resource type="Script" uid="uid://u2vchbwxnydr" path="res://UI/game_timer.gd" id="5_f2wx0"]
+[ext_resource type="PackedScene" uid="uid://bjccxqx1ndlct" path="res://UI/Jen_Bar.tscn" id="5_f2wx0"]
+[ext_resource type="Script" uid="uid://u2vchbwxnydr" path="res://UI/game_timer.gd" id="5_gppie"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uk570"]
 shader = ExtResource("3_4n7mi")
 shader_parameter/color = Color(2.3, 1.2, 0.3, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f2wx0"]
-shader = ExtResource("2_4n7mi")
-shader_parameter/amount = 1.0
-shader_parameter/color = Color(0.5, 1.5, 0.3, 1)
-shader_parameter/_out_of = 0.0
-
-[sub_resource type="Gradient" id="Gradient_yixhe"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ijstf"]
-gradient = SubResource("Gradient_yixhe")
-width = 500
-height = 20
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4n7mi"]
-shader = ExtResource("2_4n7mi")
-shader_parameter/amount = 1.0
-shader_parameter/color = Color(0.239886, 0.46276, 1, 1)
-shader_parameter/_out_of = 0.0
-
-[sub_resource type="Gradient" id="Gradient_ijstf"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_4n7mi"]
-gradient = SubResource("Gradient_ijstf")
-width = 500
-height = 20
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -45,89 +19,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yixhe")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -128.0
-offset_right = 128.0
-offset_bottom = 102.0
-grow_horizontal = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -64.0
-offset_right = 64.0
-grow_vertical = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-
 [node name="Reticle" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_uk570")
 texture = ExtResource("4_uk570")
 
-[node name="MarginContainer2" type="MarginContainer" parent="."]
+[node name="JenBar" parent="." instance=ExtResource("5_f2wx0")]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -250.0
-offset_right = 250.0
-offset_bottom = 27.0
-grow_horizontal = 2
-theme_override_constants/margin_top = 7
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2"]
-layout_mode = 2
+[node name="Label" parent="JenBar/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" index="0"]
+script = ExtResource("5_gppie")
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer2/PanelContainer"]
-material = SubResource("ShaderMaterial_f2wx0")
-layout_mode = 2
-texture = SubResource("GradientTexture2D_ijstf")
-
-[node name="MarginContainer3" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -250.0
-offset_top = -27.0
-offset_right = 250.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/margin_top = 7
-
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer3"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="MarginContainer3/PanelContainer"]
-material = SubResource("ShaderMaterial_4n7mi")
-layout_mode = 2
-texture = SubResource("GradientTexture2D_4n7mi")
-
-[node name="OutOfTimer" type="Timer" parent="MarginContainer3/PanelContainer/TextureRect"]
-wait_time = 2.0
-one_shot = true
-
-[node name="MarginContainer4" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
-grow_horizontal = 0
-
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer4"]
-layout_mode = 2
-script = ExtResource("5_f2wx0")
-
-[node name="Label" type="Label" parent="MarginContainer4/PanelContainer"]
-layout_mode = 2
+[editable path="JenBar"]

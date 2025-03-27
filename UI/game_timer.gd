@@ -1,10 +1,6 @@
-extends PanelContainer
+extends Label
 
-#@onready var time_since_engine_started: Callable = Time.get_ticks_msec
-#@onready var start_time = time_since_engine_started.call()
-@onready var time_label: Label = $Label
 var game_timer: Timer
-@onready var set_game_timer_fn = func(the_stage_game_timer: Timer): game_timer = the_stage_game_timer
 
 signal game_timer_requested( fn: Callable)
 
@@ -20,6 +16,6 @@ func time_string()-> String:
 
 func _physics_process(_delta):
 	if game_timer:
-		time_label.text = time_string()
+		text = time_string()
 	else:
-		emit_signal("game_timer_requested", set_game_timer_fn)
+		emit_signal("game_timer_requested", func(the_stage_game_timer: Timer): game_timer = the_stage_game_timer)

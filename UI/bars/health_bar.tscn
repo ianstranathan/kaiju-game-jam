@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://by40xslk1bt2a"]
+
+[ext_resource type="Shader" uid="uid://bnwhqph21n7n2" path="res://UI/bars.gdshader" id="1_no3ws"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f2wx0"]
+shader = ExtResource("1_no3ws")
+shader_parameter/amount = 1.0
+shader_parameter/color = Color(0.5, 1.5, 0.3, 1)
+shader_parameter/_out_of = 0.0
+
+[sub_resource type="Gradient" id="Gradient_yixhe"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ijstf"]
+gradient = SubResource("Gradient_yixhe")
+width = 500
+height = 20
+
+[node name="TextureRect" type="TextureRect"]
+material = SubResource("ShaderMaterial_f2wx0")
+texture = SubResource("GradientTexture2D_ijstf")
